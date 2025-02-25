@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+
+
+{% block baniere %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-light">
+        <div class="row p-2">
+            <div class="col-md-4">
+                <h3>Mon compte</h3>
+                <ul class="list-group">
+                    <li class="list-group-item" ><a href="#">Mes commandes</a></li>
+                    <li class="list-group-item" ><a href="#">Changer mon mot de passe</a></li>
+                    <li class="list-group-item" ><a href="/logout">Me deconnecter</a></li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <h3>Mes commandes</h3>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">produit</th>
+                        <th scope="col">prix</th>
+                        <th scope="col">qts</th>
+                        <th scope="col">total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>burger</td>
+                        <td>5.60</td>
+                        <td>1</td>
+                        <td>5.60</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>pizza</td>
+                        <td>4.50</td>
+                        <td>2</td>
+                        <td>9</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>soupe veggie</td>
+                        <td>6.50</td>
+                        <td>1</td>
+                        <td>6.50</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

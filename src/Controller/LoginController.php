@@ -21,4 +21,11 @@ final class LoginController extends AbstractController
             'error' => $error
         ]);
     }
+
+    #[Route('/compte', name: 'app_compte')]
+    public function compte(): Response
+    {
+
+        return $this->render('account/index.html.twig');
+    }
 }

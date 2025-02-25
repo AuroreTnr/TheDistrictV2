@@ -3,9 +3,9 @@
 {% block title %}S' inscrire{% endblock %}
 
 {% block body %}
-<div class="p-5">
-    <h1 class="text-light" >S' inscrire</h1>
+<div class="bg-light p-5">
+    <h1>S' inscrire</h1>
     {{ form(registerform) }}
-    <span class="text-light">J' ai déjà un compte ? <a href="{{ path('app_login') }}">Me connecter</a></span>
+    <span>J' ai déjà un compte ? <a href="{{ path('app_login') }}">Me connecter</a></span>
 </div>
 {% endblock %}
