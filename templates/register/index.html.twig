@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegisterController!{% endblock %}
+{% block title %}S' inscrire{% endblock %}
 
 {% block body %}
 <div class="p-5">
     <h1>S' inscrire</h1>
     {{ form(registerform) }}
+    J' ai déjà un compte ? <a href="{{ path('app_login') }}">Me connecter</a>
 </div>
 {% endblock %}
