@@ -1,0 +1,24 @@
+        <!-- BANNIERE -->
+        <div class="container-items position-relative d-flex justify-content-center align-items-center">
+            <img class="card-img position-relative" src="{{ asset('img/assets/img/bg3.jpeg') }}" alt="photo de légumes savoureux">    
+            <div class="text-banniere position-absolute">
+                <h5 class="card-title text-white">Catégorie</h5>
+    
+                <!-- Condition affichage search -->
+    
+    
+    
+                <div class="input-group input-group-sm mb-1 justify-content-center d-flex">
+                    <!-- formulaire recherche -->
+                    <form action="plats.php" method="get" class="d-flex w-100">
+                        <input type="text" name="search" placeholder="rechercher un plat ..." 
+                            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" 
+                            class="p-1 form-control me-2">
+                        <input type="submit" class="btn btn-light btn-sm text-secondary" value="Rechercher">
+                    </form>
+                </div>
+    
+    
+            </div>
+            </div>
+    

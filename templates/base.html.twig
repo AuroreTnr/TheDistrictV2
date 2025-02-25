@@ -2,21 +2,119 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Page d' accueil du restaurant the district">
         <title>The district - {% block title %}{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {# ICON #}
+        <link rel="shortcut icon" href="{{ asset('asset/img/favicon.png') }}" type="image/x-icon">
+        {# BOOTSTRAP #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        {# ICON_BOOTSTRAP #}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        {# FONT_UPDOCK #}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Updock&display=swap" rel="stylesheet">
+        {# FONT POPPINS #}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+          {# CSS #}
+          <link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
+        {% block stylesheet %}{% endblock %}
+
     </head>
     <body>
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
+
+    <!-- NAV HEADER -->
+    <header>
+
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-expand-lg bg-dark p-1 justify-content-center">
+        <div class="container-fluid d-flex justify-content-center gap-4">
+          <button class="navbar-toggler me-auto" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <i class="btn-burger bi bi-three-dots-vertical"></i>
+          </button>
+          <a href="{{ path('app_home') }}" class="me-auto"><img src="{{ asset('asset/img/logo_transparent.png') }}" class="logo" alt="logo le district"></a>
+          <a href="#" class="d-md-flex order-md-5"><i class="bi bi-cart panier"></i></a>
+          <a href="{{ path('app_login')}}" class="d-md-flex order-md-5"><i class="bi bi-person-circle account"></i></a>
+
+          <div class="offcanvas offcanvas-start bg-dark" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <label id="offcanvasNavbarLabel">Burger</label>
+              <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex justify-content-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link text-uppercase" aria-current="page" href="/index.php">Accueil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-uppercase" href="/categorie.php">catégorie</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-uppercase link-plats" href="/plats.php">plats</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-uppercase" href="/contact.php">contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {% block baniere %} {% endblock %}
+    </header>
+
+
+    <main>
 
         <div>
-        {% block body %}{% endblock %}
+        {% block body %}
+        
+        {% endblock %}
         </div>
+
+    </main>
+
+
+
+    <footer>
+      <div class="container-footer d-flex flex-column gap-4 p-4 text-light">
+    
+        <div class="d-flex gap-3" style="height: 150px;">
+          <div>
+            <span class="d-block fw-bold">Contacter nous</span>
+            <span class="d-block"><i class="bi bi-geo-alt-fill me-1"></i>Lorem ipsum dolor sit, amet</span>
+            <span class="d-block"><i class="bi bi-telephone-fill me-1"></i>03 23 51 25 12</span>
+            <span class="d-block"><i class="bi bi-envelope-at me-1"></i>thedistrict@restaurant.fr</span>
+            <span class="d-block"><i class="bi bi-clock me-1"></i>Sun - Sat / 10:00 AM - 8:00 PM</span>
+          </div>
+    
+          <div>
+            <span class="d-block fw-bold">The district</span>
+            <a href="#"><i class="bi bi-instagram me-1"></i></a>
+            <a href="#"><i class="bi bi-facebook me-1"></i></a>
+            <a href="#"><i class="bi bi-twitter-x me-1"></i></a>
+          </div>
+        </div>
+        <div class ="d-flex justify-content-center gap-2">
+          <a href="politique-confidentialite.php">Politique de confidentialite</a>
+          <a href="mentions-legales.php">Mentions légales</a>
+        </div>
+      </div>
+    </footer>
+    
+    
+    <!-- cdn bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+        
     </body>
 </html>

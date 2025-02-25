@@ -4,13 +4,13 @@
 
 {% block body %}
 <div class="p-5">
-    <h1>Se connecter</h1>
+    <h1 class="text-light">Se connecter</h1>
 
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
+    <form action="{{ path('app_login') }}" method="post" class="text-light">
         <label for="username">Entrez votre email:</label>
         <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required>
 
@@ -22,6 +22,6 @@
 
         <button class="btn btn-sm btn-success mt-3" type="submit">Se connecter</button>
     </form>
-    Je n' est pas de compte ? <a href="{{ path('app_register') }}">S' inscrire</a>
+    <span class="text-light">Je n' est pas de compte ? <a href="{{ path('app_register') }}">S' inscrire</a></span>
 </div>
 {% endblock %}
