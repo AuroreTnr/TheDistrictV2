@@ -18,7 +18,7 @@ security:
                 login_path: app_login
                 check_path: app_login
             logout:
-                path: /logout
+                path: /deconnexion
             lazy: true
             provider: app_user_provider
 

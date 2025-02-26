@@ -22,10 +22,10 @@ final class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/compte', name: 'app_compte')]
-    public function compte(): Response
+    #[Route('/deconnexion', name: 'app_logout', methods: 'GET')]
+    public function logout(): Response
     {
-
-        return $this->render('account/index.html.twig');
+        return $this->redirectToRoute('app_home');
     }
+
 }

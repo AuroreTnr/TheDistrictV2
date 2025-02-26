@@ -41,7 +41,7 @@
           <a href="{{ path('app_home') }}" class="me-auto"><img src="{{ asset('asset/img/logo_transparent.png') }}" class="logo" alt="logo le district"></a>
           
           {% if app.user %}          
-          <a href="{{ path('app_compte')}}" class="d-md-flex order-md-5 text-light">{{app.user.prenom}}</a>
+          <a href="{{ path('app_account')}}" class="d-md-flex order-md-5 text-light">{{app.user.prenom}}</a>
           {% else %}
             <a href="{{ path('app_login')}}" class="d-md-flex order-md-5"><i class="bi bi-person-circle account"></i></a>
           {% endif %}
