@@ -4,11 +4,14 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class PasswordUserType extends AbstractType
 {
@@ -40,7 +43,13 @@ class PasswordUserType extends AbstractType
                     ]
                 ],
                 'mapped' => false,
-            ])            
+            ])
+            ->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event): void {
+                $form = $event->getData()->getPassword();
+                $user = $event->getForm()->getConfig()->getOptions()['data'];
+                dump($user);
+                dd($form);
+            })         
 
             ->add('Submit', SubmitType::class, [
                 'label' => 'Modifier mon mot de passe',
