@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+
+{% block baniere %}
+{% include 'partials/_banniereV2.html.twig' with {'name' : 'Plats'} %}
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="container-fluid p-4">
+        <div class="row align-items-center justify-content-center container-plat">
+            {% for key, plat in plats %}
+
+                <!-- PLAT -->
+                <div class="col-9 col-md-6 col-lg-3" data-key="{{plat.libelle}}">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{asset('asset/img/food_img/burger/burger-charolais.jpg')}}" class="img-fluid rounded-start" alt="{{plat.libelle}}">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                        <div class="d-flex align-items-baseline justify-content-between align-self-end">
+                            <p class="card-text"><small class="text-body-secondary">{{plat.prix}} €</small></p>
+                            <a href="addpanier.php?id=<?=$food['id'];?>" class="btn small border-warning text-dark">add <i class="bi bi-plus"></i></a>
+                        </div>
+                        <h5 class="card-title fs-6">{{plat.libelle}}</h5>
+                        <p class="card-text">{{plat.description}}</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    </section>
+{% endblock %}

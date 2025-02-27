@@ -9,9 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class PasswordUserType extends AbstractType
 {
@@ -44,12 +45,17 @@ class PasswordUserType extends AbstractType
                 ],
                 'mapped' => false,
             ])
-            ->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event): void {
-                $form = $event->getData()->getPassword();
-                $user = $event->getForm()->getConfig()->getOptions()['data'];
-                dump($user);
-                dd($form);
-            })         
+            ->addEventListener(FormEvents::SUBMIT, function (FormEvent $event): void {
+                $form = $event->getForm();
+                $user = $form->getConfig()->getOptions()['data'];
+                $passwordhasher = $form->getConfig()->getOptions()['passwordhasher'];
+
+                $isValid = $passwordhasher->isPasswordValid($user, $form->get('actualpassword')->getData());
+
+                if (!$isValid) {
+                    $form->get('actualpassword')->addError(new FormError("Votre mot de passe n' est pas correcte, veuillez réessayer."));
+                }
+            })        
 
             ->add('Submit', SubmitType::class, [
                 'label' => 'Modifier mon mot de passe',
@@ -64,6 +70,7 @@ class PasswordUserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'passwordhasher' => Null,
         ]);
     }
 }
