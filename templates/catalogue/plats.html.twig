@@ -20,7 +20,7 @@
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                     <div class="col-md-2">
-                        <img src="{{asset('asset/img/food_img/burger/burger-charolais.jpg')}}" class="img-fluid rounded-start" alt="{{plat.libelle}}">
+                        <img src="{{plat.image}}" class="img-fluid rounded-start" alt="{{plat.libelle}}">
                     </div>
                     <div class="col-md-10">
                         <div class="card-body">
@@ -39,4 +39,6 @@
         </div>
         </div>
     </section>
+
+    {% block video %}{% endblock %}
 {% endblock %}

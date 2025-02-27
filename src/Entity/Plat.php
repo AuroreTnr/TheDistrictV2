@@ -25,7 +25,7 @@ class Plat
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prix = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 225)]
     private ?string $image = null;
 
     #[ORM\Column]

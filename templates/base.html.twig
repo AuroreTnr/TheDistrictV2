@@ -67,7 +67,7 @@
                   <a class="nav-link text-uppercase link-plats" href="{{ path('app_plats')}}">plats</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-uppercase" href="/contact.php">contact</a>
+                  <a class="nav-link text-uppercase" href="{{ path('app_contact')}}">contact</a>
                 </li>
               </ul>
             </div>
@@ -81,6 +81,8 @@
 
     <main>
       
+
+      {% if app.flashes %}
       <div class="container w-50 mt-4">
         {% for label, messages in app.flashes %}
           {% for message in messages %}
@@ -91,6 +93,8 @@
         {% endfor %}
       </div>
 
+      {% endif %}
+      
       <div>
       {% block body %}
       
@@ -103,6 +107,8 @@
 
     <footer>
       <div class="container-footer d-flex flex-column gap-4 p-4 text-light">
+
+        {% block video %}{% include "partials/_video.html.twig" %}{% endblock %}
     
         <div class="d-flex gap-3" style="height: 150px;">
           <div>
