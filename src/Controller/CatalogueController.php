@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Plat;
+use App\Repository\PlatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -19,16 +21,19 @@ final class CatalogueController extends AbstractController
 
 
     #[Route('/plats', name: 'app_plats')]
-    public function plats(EntityManagerInterface $entityManager): Response
+    public function showplats(Request $request, PlatRepository $platRepository): Response
     {
-        $plat = $entityManager->getRepository(Plat::class)->findAll();
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $platRepository->getPlatPaginator($offset);
 
-        if (!$plat) {
+        if (!$paginator) {
             throw $this->createNotFoundException('Aucuns plats n\' est disponible');
         }
 
         return $this->render('catalogue/plats.html.twig', [
-            'plats' => $plat,
+            'plats' => $paginator,
+            'previous' => $offset - PlatRepository::PLAT_PAR_PAGE,
+            'next' => min(count($paginator), $offset + PlatRepository::PLAT_PAR_PAGE),
         ]);
     }
 }
