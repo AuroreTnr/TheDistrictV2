@@ -14,6 +14,7 @@ class PlatRepository extends ServiceEntityRepository
 {
     public const PLAT_PAR_PAGE = 6;
 
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Plat::class);
@@ -30,6 +31,7 @@ class PlatRepository extends ServiceEntityRepository
 
     return new Paginator($query);
 }
+
 
 
 

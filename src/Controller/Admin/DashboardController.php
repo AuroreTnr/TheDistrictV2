@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -42,8 +44,18 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToRoute('Page d accueil', 'fa fa-home', 'app_home');
             yield MenuItem::linkToDashboard('User', 'fa-solid fa-user');
             yield MenuItem::linkToCrud('Catégorie', 'fa-solid fa-layer-group', Categorie::class);
-                yield MenuItem::linkToCrud('Plats', 'fa-solid fa-plate-wheat', Plat::class);
+            yield MenuItem::linkToCrud('Plats', 'fa-solid fa-plate-wheat', Plat::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
+
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+            // this defines the pagination size for all CRUD controllers
+            // (each CRUD controller can override this value if needed)
+            ->setPaginatorPageSize(15)
+        ;
+    }
+
 
 }

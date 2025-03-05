@@ -42,20 +42,12 @@
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-        {% if previous >= 0 %}
-                    <a href="{{ path('app_plats', { offset: previous }) }}">Previous</a>
-        {% endif %}
-
-
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          {% if next < plats|length %}
-          <a href="{{ path('app_plats', { offset: next }) }}">Next</a>
-
-        {% endif %}
+            {% if previous >= 0 %}
+            <li class="page-item"><a class="page-link" href="{{ path('app_plats', { offset: previous }) }}">Previous</a></li>
+            {% endif %}
+            {% if next < plats|length %}
+            <li class="page-item"><a class="page-link" href="{{ path('app_plats', { offset: next }) }}">Next</a></li>
+            {% endif %}
 
         </ul>
       </nav>
