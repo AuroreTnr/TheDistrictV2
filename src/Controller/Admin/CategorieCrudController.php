@@ -45,10 +45,21 @@ class CategorieCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('libelle')->setLabel('Titre')->setHelp('Nom de la catégorie'),
-            SlugField::new('slug')->setTargetFieldName('libelle')->setHelp('Le slug est générer en fonction de votre titre'),
-            ImageField::new('image')->setLabel('Illustration')->setHelp('L\' url de la catégorie')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setUploadDir('public/asset/uploads/images/categorie/'),
-            BooleanField::new('active')->setLabel('En stock')->setHelp('activer ou deactiver selon vos stocks')
+            TextField::new('libelle')
+                ->setLabel('Titre')
+                ->setHelp('Nom de la catégorie'),
+            SlugField::new('slug')
+                ->setTargetFieldName('libelle')
+                ->setHelp('Le slug est générer en fonction de votre titre'),
+            ImageField::new('image')
+                ->setLabel('Illustration')
+                ->setHelp('L\' url de la catégorie')
+                ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+                ->setUploadDir('public/asset/uploads/images/categorie/')
+                ->setBasePath('asset/uploads/images/categorie/'),
+            BooleanField::new('active')
+                ->setLabel('En stock')
+                ->setHelp('activer ou deactiver selon vos stocks')
         ];
     }
 

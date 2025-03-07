@@ -27,13 +27,26 @@ class PlatCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('libelle')->setLabel('Titre')->setHelp('Le nom du plat'),
-            SlugField::new('slug')->setTargetFieldName('libelle')->setHelp('Le slug est géré automatiquement en fonction du titre de votre plat'),
-            ImageField::new('image')->setLabel('Illustration')->setHelp('L\' url du plat')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setUploadDir('public/asset/uploads/images/plat/'),
-            NumberField::new('prix')->setHelp('Le prix du plat TTC, sans le sigle euro'),
+            TextField::new('libelle')
+                ->setLabel('Titre')
+                ->setHelp('Le nom du plat'),
+            SlugField::new('slug')
+                ->setTargetFieldName('libelle')
+                ->setHelp('Le slug est géré automatiquement en fonction du titre de votre plat'),
+            ImageField::new('image')
+                ->setLabel('Illustration')
+                ->setHelp('L\' url du plat')
+                ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+                ->setBasePath('asset/uploads/images/plat/') // chemin ou l image doit etre sauvegarder dans le projet
+                ->setUploadDir('public/asset/uploads/images/plat/'), // chemin ou admin doit chercher
+            NumberField::new('prix')
+                ->setHelp('Le prix du plat TTC, sans le sigle euro'),
             TextEditorField::new('description'),
-            AssociationField::new('categorie')->setHelp('Choisissez une catégorie'),
-            BooleanField::new('active')->setLabel('En stock')->setHelp('Activer ou déactiver en fonction du stock')
+            AssociationField::new('categorie')
+                ->setHelp('Choisissez une catégorie'),
+            BooleanField::new('active')
+                ->setLabel('En stock')
+                ->setHelp('Activer ou déactiver en fonction du stock')
             
         ];
     }
