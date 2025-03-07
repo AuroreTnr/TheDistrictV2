@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -46,7 +47,7 @@ class CategorieCrudController extends AbstractCrudController
         return [
             TextField::new('libelle')->setLabel('Titre')->setHelp('Nom de la catégorie'),
             SlugField::new('slug')->setTargetFieldName('libelle')->setHelp('Le slug est générer en fonction de votre titre'),
-            TextField::new('image')->setLabel('Illustration')->setHelp('Url de l\' image'),
+            ImageField::new('image')->setLabel('Illustration')->setHelp('L\' url de la catégorie')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setUploadDir('public/asset/uploads/images/categorie/'),
             BooleanField::new('active')->setLabel('En stock')->setHelp('activer ou deactiver selon vos stocks')
         ];
     }

@@ -10,6 +10,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -26,9 +28,9 @@ class PlatCrudController extends AbstractCrudController
     {
         return [
             TextField::new('libelle')->setLabel('Titre')->setHelp('Le nom du plat'),
-            TextField::new('prix')->setHelp('Le prix du plat TTC'),
-            TextField::new('image')->setLabel('Illustration')->setHelp('L\' url du plat'),
             SlugField::new('slug')->setTargetFieldName('libelle')->setHelp('Le slug est géré automatiquement en fonction du titre de votre plat'),
+            ImageField::new('image')->setLabel('Illustration')->setHelp('L\' url du plat')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setUploadDir('public/asset/uploads/images/plat/'),
+            NumberField::new('prix')->setHelp('Le prix du plat TTC, sans le sigle euro'),
             TextEditorField::new('description'),
             AssociationField::new('categorie')->setHelp('Choisissez une catégorie'),
             BooleanField::new('active')->setLabel('En stock')->setHelp('Activer ou déactiver en fonction du stock')

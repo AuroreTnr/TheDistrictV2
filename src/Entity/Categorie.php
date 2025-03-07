@@ -18,7 +18,7 @@ class Categorie
     #[ORM\Column(length: 50)]
     private ?string $libelle = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 255)]
     private ?string $image = null;
 
     #[ORM\Column]
