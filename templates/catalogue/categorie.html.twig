@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ asset('asset/css/categorie-contact.css')}}">
+{% endblock %}
+
+
+{% block baniere %}
+{% include 'partials/_banniereV2.html.twig' with {'name' : 'Catégorie'} %}
+{% endblock %}
+
+{% block body %}
+
+<!-- CATEGORIE -->
+
+    <section>
+        <div class="container-fluid p-4">
+            <div class="row align-items-center justify-content-center container-plat">
+            {% for key, categorie in categories %}
+                <div class="col-9 col-md-6 col-lg-3 card-categorie" data-key="{{ categorie.libelle }}">
+                    <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                        <img src="{{ asset('asset/uploads/images/categorie/' ~ categorie.image) }}" class="img-fluid rounded-start" alt="{{ categorie.libelle }}">
+                        </div>
+                        <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title fs-6">{{ categorie.libelle }}</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+                            <a href="./categorie.php?search=<?= urlencode($value['libelle']); ?>" class="stretched-link" data-key="{{ categorie.libelle }}"></a>
+            
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if previous >= 0 %}
+                <li class="page-item"><a class="page-link" href="{{ path('app_categorie', { offset: previous }) }}"><i class="bi bi-arrow-left text-warning"></i></a></li>
+                {% endif %}
+                {% if next < categories|length %}
+                <li class="page-item"><a class="page-link" href="{{ path('app_categorie', { offset: next }) }}"><i class="bi bi-arrow-right text-warning"></i></a></li>
+                {% endif %}
+            </ul>
+          </nav>
+    </div>
+
+
+
+    {% block video %}{% endblock %}
+{% endblock %}

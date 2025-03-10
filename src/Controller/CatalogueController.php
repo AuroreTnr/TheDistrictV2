@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Plat;
+use App\Repository\CategorieRepository;
 use App\Repository\PlatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,7 @@ final class CatalogueController extends AbstractController
 
 
     #[Route('/plats', name: 'app_plats')]
-    public function showplats(Request $request, PlatRepository $platRepository): Response
+    public function showPlats(Request $request, PlatRepository $platRepository): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $platRepository->getPlatPaginator($offset);
@@ -34,6 +35,23 @@ final class CatalogueController extends AbstractController
             'plats' => $paginator,
             'previous' => $offset - PlatRepository::PLAT_PAR_PAGE,
             'next' => min(count($paginator), $offset + PlatRepository::PLAT_PAR_PAGE),
+        ]);
+    }
+
+    #[Route('/categorie', name: 'app_categorie')]
+    public function showCategorie(Request $request, CategorieRepository $categorieRepository): Response
+    {
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $categorieRepository->getCategoriePaginator($offset);
+
+        if (!$paginator) {
+            throw $this->createNotFoundException('Aucuns plats n\' est disponible');
+        }
+
+        return $this->render('catalogue/categorie.html.twig', [
+            'categories' => $paginator,
+            'previous' => $offset - CategorieRepository::CATEGORIE_PAR_PAGE,
+            'next' => min(count($paginator), $offset + CategorieRepository::CATEGORIE_PAR_PAGE),
         ]);
     }
 }

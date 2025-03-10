@@ -2,10 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Categorie;
 use App\Entity\Plat;
-use App\Form\CategorieType;
-use App\Form\RegisterUserType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -26,6 +23,12 @@ class PlatCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
+        $required = true;
+        if ($pageName == 'edit') {
+            $required = false;
+        }
+
         return [
             TextField::new('libelle')
                 ->setLabel('Titre')
@@ -38,7 +41,8 @@ class PlatCrudController extends AbstractCrudController
                 ->setHelp('L\' url du plat')
                 ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
                 ->setBasePath('asset/uploads/images/plat/') // chemin ou l image doit etre sauvegarder dans le projet
-                ->setUploadDir('public/asset/uploads/images/plat/'), // chemin ou admin doit chercher
+                ->setUploadDir('public/asset/uploads/images/plat/')  // chemin ou admin doit chercher
+                ->setRequired($required),
             NumberField::new('prix')
                 ->setHelp('Le prix du plat TTC, sans le sigle euro'),
             TextEditorField::new('description'),

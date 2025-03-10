@@ -44,6 +44,11 @@ class CategorieCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
+        $required = true;
+        if ($pageName == 'edit') {
+            $required = false;
+        }
+
         return [
             TextField::new('libelle')
                 ->setLabel('Titre')
@@ -56,7 +61,9 @@ class CategorieCrudController extends AbstractCrudController
                 ->setHelp('L\' url de la catégorie')
                 ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
                 ->setUploadDir('public/asset/uploads/images/categorie/')
-                ->setBasePath('asset/uploads/images/categorie/'),
+                ->setBasePath('asset/uploads/images/categorie/')
+                ->setRequired($required),
+
             BooleanField::new('active')
                 ->setLabel('En stock')
                 ->setHelp('activer ou deactiver selon vos stocks')
