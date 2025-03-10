@@ -12,22 +12,33 @@
 
 <div class="row">
     <div class="col-md-8 bg-light">
-        <h1>Mon panier</h1>
-        {% for plat in panier %}
-                <div class="row mt-2">
-                    <img src="" alt="" class="imf-fluid">
-                </div>
-                <div class="col-md-6">
-                    <strong>{{ plat.object.libelle}}</strong>
-                </div>
-                <div class="col-md-2 text-right">
-                    <strong>{{ plat.qty}}</strong>
-                    <span class="d-block small">Prix unitaire {{ plat.object.prix|price }}</span>
-                </div>
-                <div class="col-md-2 text-right">
-                    <strong>{{ (plat.qty * plat.object.prix)|price}}</strong>
-                </div>
-        {% endfor %}
+        <h3>Mon panier</h3>
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">image</th>
+                    <th scope="col">produit</th>
+                    <th scope="col">prix</th>
+                    <th scope="col">qts</th>
+                    <th scope="col">total</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for plat in panier %}
+                  <tr>
+                    <td><img src="{{ asset('asset/uploads/images/plat/' ~ plat.object.image) }}" alt="{{plat.object.libelle}} " style="max-width: 50px; height: 50px; object-fit: cover;" class="img-fluid rounded-circle"></td>
+                    <td>{{plat.object.libelle}}</td>
+                    <td>{{plat.object.prix|price}}</td>
+                    <td>{{plat.qty}}</td>
+                    <td>{{(plat.object.prix * plat.qty)|price}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+        </div>
     </div>
 </div>
 
