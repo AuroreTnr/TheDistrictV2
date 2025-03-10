@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Panier;
 use App\Form\PasswordUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,9 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AccountController extends AbstractController
 {
     #[Route('/compte', name: 'app_account')]
-    public function index(): Response
+    public function index(Panier $panier): Response
     {
-        return $this->render('account/index.html.twig');
+        return $this->render('account/index.html.twig', [
+            'panier' => $panier->getPanier(),
+        ]);
     }
 
     #[Route('compte/modifier-mot-de-passe', name: 'app_account_modify_pwd')]

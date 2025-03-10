@@ -21,7 +21,6 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col"></th>
                         <th scope="col">produit</th>
                         <th scope="col">prix</th>
                         <th scope="col">qts</th>
@@ -29,27 +28,16 @@
                       </tr>
                     </thead>
                     <tbody>
+
+                      {% for plat in panier %}
                       <tr>
-                        <th scope="row">1</th>
-                        <td>burger</td>
-                        <td>5.60</td>
-                        <td>1</td>
-                        <td>5.60</td>
+                        <td>{{plat.object.libelle}}</td>
+                        <td>{{plat.object.prix|price}}</td>
+                        <td>{{plat.qty}}</td>
+                        <td>{{(plat.object.prix * plat.qty)|price}}</td>
                       </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>pizza</td>
-                        <td>4.50</td>
-                        <td>2</td>
-                        <td>9</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>soupe veggie</td>
-                        <td>6.50</td>
-                        <td>1</td>
-                        <td>6.50</td>
-                      </tr>
+                      {% endfor %}
+
                     </tbody>
                   </table>
             </div>

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+
+{% block baniere %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-8 bg-light">
+        <h1>Mon panier</h1>
+        {% for plat in panier %}
+                <div class="row mt-2">
+                    <img src="" alt="" class="imf-fluid">
+                </div>
+                <div class="col-md-6">
+                    <strong>{{ plat.object.libelle}}</strong>
+                </div>
+                <div class="col-md-2 text-right">
+                    <strong>{{ plat.qty}}</strong>
+                    <span class="d-block small">Prix unitaire {{ plat.object.prix|price }}</span>
+                </div>
+                <div class="col-md-2 text-right">
+                    <strong>{{ (plat.qty * plat.object.prix)|price}}</strong>
+                </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% block video %}{% endblock %}
+{% endblock %}
