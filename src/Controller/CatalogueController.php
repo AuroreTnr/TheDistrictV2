@@ -21,37 +21,41 @@ final class CatalogueController extends AbstractController
     }
 
 
-    #[Route('/plats', name: 'app_plats')]
-    public function showPlats(Request $request, PlatRepository $platRepository): Response
+    #[Route('/plats/{page?1}', name: 'app_plats')]
+    public function showPlats(Request $request, PlatRepository $platRepository, $page): Response
     {
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $platRepository->getPlatPaginator($offset);
+        $nbre_total_plat = $platRepository->count();
 
-        if (!$paginator) {
-            throw $this->createNotFoundException('Aucuns plats n\' est disponible');
-        }
+        $nbre_de_plat_par_page = 6;
+
+        $plats = $platRepository->findBy([],[], $nbre_de_plat_par_page, ($page - 1) * $nbre_de_plat_par_page);
+
+        $nbre_de_page = ceil($nbre_total_plat / $nbre_de_plat_par_page);
 
         return $this->render('catalogue/plats.html.twig', [
-            'plats' => $paginator,
-            'previous' => $offset - PlatRepository::PLAT_PAR_PAGE,
-            'next' => min(count($paginator), $offset + PlatRepository::PLAT_PAR_PAGE),
+            'plats' => $plats,
+            'isPaginated' => true,
+            'nbre_de_page' => $nbre_de_page,
+            'page' => $page
         ]);
     }
 
-    #[Route('/categorie', name: 'app_categorie')]
-    public function showCategorie(Request $request, CategorieRepository $categorieRepository): Response
+    #[Route('/categorie/{page?1}', name: 'app_categorie')]
+    public function showCategorie(Request $request, CategorieRepository $categorieRepository, $page): Response
     {
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $categorieRepository->getCategoriePaginator($offset);
+        $nbre_total_plat = $categorieRepository->count();
 
-        if (!$paginator) {
-            throw $this->createNotFoundException('Aucuns plats n\' est disponible');
-        }
+        $nbre_de_plat_par_page = 4;
+
+        $categories = $categorieRepository->findBy([],[], $nbre_de_plat_par_page, ($page - 1) * $nbre_de_plat_par_page);
+
+        $nbre_de_page = ceil($nbre_total_plat / $nbre_de_plat_par_page);
 
         return $this->render('catalogue/categorie.html.twig', [
-            'categories' => $paginator,
-            'previous' => $offset - CategorieRepository::CATEGORIE_PAR_PAGE,
-            'next' => min(count($paginator), $offset + CategorieRepository::CATEGORIE_PAR_PAGE),
+            'categories' => $categories,
+            'isPaginated' => true,
+            'nbre_de_page' => $nbre_de_page,
+            'page' => $page
         ]);
     }
 }

@@ -12,42 +12,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class PlatRepository extends ServiceEntityRepository
 {
-    public const PLAT_PAR_PAGE = 6;
 
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Plat::class);
     }
-
-    public function getPlatPaginator(int $offset): Paginator
-{
-    $query = $this->createQueryBuilder('p')
-        ->orderBy('p.id', 'ASC')
-        ->setMaxResults(self::PLAT_PAR_PAGE)
-        ->setFirstResult($offset)
-        ->getQuery()
-    ;
-
-    return new Paginator($query);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
