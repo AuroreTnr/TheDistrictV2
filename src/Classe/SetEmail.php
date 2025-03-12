@@ -6,16 +6,21 @@ use Exception;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 class SetEmail
 {
 
     private $mailer;
+    private $url;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $url)
     {
         $this->mailer = $mailer;
+        $this->url = $url;
     }
+
 
     public function contactEmail(string $from, string $subject, string $twigTemplate, $message, $nom, $prenom)
     {
@@ -42,6 +47,9 @@ class SetEmail
 
     public function registerEmail(string $to, string $subject, string $twigTemplate, $nom, $prenom)
     {
+
+        $url = $this->url->generate('app_confirm_email', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
         $email = (new TemplatedEmail())
         ->from('thedistrict@gmail.fr')
         ->to($to)
@@ -52,7 +60,11 @@ class SetEmail
             'nom' => $nom,
             'prenom' => $prenom,
             'expiration_date' => new \DateTime('+7 days'),
+            'urlvalidation' => $url
         ]);
+
+        $this->mailer->send($email);
+
     }
 
 

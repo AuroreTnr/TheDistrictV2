@@ -5,9 +5,6 @@ namespace App\Controller;
 use App\Classe\Pagination;
 use App\Entity\Categorie;
 use App\Entity\Plat;
-use App\Repository\CategorieRepository;
-use App\Repository\PlatRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,4 +55,5 @@ final class CatalogueController extends AbstractController
             'page' => $result['page']
         ]);
     }
+
 }
