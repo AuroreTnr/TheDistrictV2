@@ -13,12 +13,10 @@ class Panier
     public function add($plat)
     {
 
-
         $panier = $this->requestStack->getSession()->get('panier');
 
-        $panier[$plat->getId()] = [];
 
-        if ($panier[$plat->getId()]) {
+        if (isset($panier[$plat->getId()])) {
             $panier[$plat->getId()] = [
                 'object' => $plat,
                 'qty' => $panier[$plat->getId()]['qty'] + 1    
@@ -33,6 +31,31 @@ class Panier
 
 
         $this->requestStack->getSession()->set('panier', $panier);
+
+    }
+
+    public function remove()
+    {
+
+
+        return $this->requestStack->getSession()->remove('panier');
+
+
+    }
+
+    public function less($id)
+    {
+
+        $panier = $this->requestStack->getSession()->get('panier');
+
+        if ($panier[$id]['qty'] > 1) {
+            $panier[$id]['qty'] = $panier[$id]['qty'] - 1;
+        } else {
+            unset($panier[$id]);
+        }
+
+        $this->requestStack->getSession()->set('panier', $panier);
+        
 
     }
 
