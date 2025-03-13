@@ -2,6 +2,7 @@
 
 namespace App\Classe;
 
+use App\Entity\Plat;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Panier
@@ -14,7 +15,6 @@ class Panier
     {
 
         $panier = $this->requestStack->getSession()->get('panier');
-
 
         if (isset($panier[$plat->getId()])) {
             $panier[$plat->getId()] = [

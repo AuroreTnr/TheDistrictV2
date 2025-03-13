@@ -38,7 +38,7 @@ class SetEmail
             ]);
     
             $this->mailer->send($email);
-            } catch (Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("Erreur lors de l envoie de l email : " . $e->getMessage());
             
         }
