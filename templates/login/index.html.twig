@@ -10,7 +10,7 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post" class="text-light">
+    <form action="{{ path('app_login') }}" method="post">
         <label for="username">Entrez votre email:</label>
         <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required>
 
@@ -21,7 +21,12 @@
         <input type="hidden" name="_target_path" value="{{ path('app_account')}}"> 
         <input type="hidden" name="_csrf_token" date-controller="csrf-protection" value="{{ csrf_token('authenticate')}}"> 
 
-        <button class="btn btn-sm btn-success my-3" type="submit">Se connecter</button>
+        <label class="mt-1 small">
+            <input type="checkbox" name="_remember_me">
+            Se souvenir de moi
+        </label>
+
+        <button class="btn btn-sm btn-success my-3 d-block" type="submit">Se connecter</button>
     </form>
     <span>Je n' ai pas de compte ? <a href="{{ path('app_register') }}">Créer un compte</a></span>
 </div>
