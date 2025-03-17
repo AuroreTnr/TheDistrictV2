@@ -25,6 +25,9 @@ class Plat
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prix = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $tva = null;
+
     #[ORM\Column(length: 225)]
     private ?string $image = null;
 
@@ -166,6 +169,19 @@ class Plat
 
         return $this;
     }
+
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(string $tva): static
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
 
 
 }
