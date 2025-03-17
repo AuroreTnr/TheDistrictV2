@@ -80,7 +80,10 @@
 
 
             
-            <a href="{{ path('app_panier')}}" class="d-md-flex order-md-5"><i class="bi bi-cart panier"></i></a>
+            <a href="{{ path('app_panier')}}" class="d-md-flex order-md-5">
+              <i class="bi bi-cart panier"></i>
+              <span class="badge text-bg-secondary m-1"> {{ fullPanierQuantity }}</span>
+            </a>
           </div>
 
         </div>

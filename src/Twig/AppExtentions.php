@@ -2,12 +2,20 @@
 
 namespace App\Twig;
 
+use App\Classe\Panier;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 
-class AppExtentions extends AbstractExtension
+class AppExtentions extends AbstractExtension implements GlobalsInterface
 {
 
+    private $panier;
+
+    public function __construct(Panier $panier)
+    {
+        $this->panier = $panier;
+    } 
     public function getFilters(): array
     {
         return [
@@ -22,6 +30,15 @@ class AppExtentions extends AbstractExtension
         return number_format($number,'2',',') . ' €';
 
     }
+
+    public function getGlobals(): array
+    {
+        return [
+            'fullPanierQuantity' => $this->panier->fullPanierQuantity(),
+        ];
+    }
+
+
 }
 
 

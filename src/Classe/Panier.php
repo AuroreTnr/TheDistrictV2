@@ -65,6 +65,22 @@ class Panier
     }
 
 
+    public function fullPanierQuantity(){
+        $panier = $this->getPanier();
+        $quantity = 0;
+
+        if (!isset($panier)) {
+            return $quantity;
+        }
+
+        foreach ($panier as $plat) {
+            $quantity = $quantity + $plat['qty'];
+        }
+
+        return $quantity;
+    }
+
+
 }
 
 
