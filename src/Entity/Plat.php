@@ -25,8 +25,8 @@ class Plat
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prix = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $tva = null;
+    #[ORM\Column]
+    private ?float $tva = null;
 
     #[ORM\Column(length: 225)]
     private ?string $image = null;
@@ -170,12 +170,19 @@ class Plat
         return $this;
     }
 
-    public function getTva(): ?string
+    public function getPriceWt()
+    {
+        $coeff = 1 + ($this->tva/100);
+
+        return $coeff * $this->prix;
+    }
+
+    public function getTva(): ?float
     {
         return $this->tva;
     }
 
-    public function setTva(string $tva): static
+    public function setTva(float $tva): static
     {
         $this->tva = $tva;
 

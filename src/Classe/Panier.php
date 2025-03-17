@@ -80,6 +80,24 @@ class Panier
         return $quantity;
     }
 
+    public function getNetTotalWt()
+    {
+        $panier = $this->getPanier();
+
+        $prix = 0;
+
+        if (!isset($panier)) {
+            return $prix;
+        }
+
+
+        foreach ($panier as $plat) {
+            $prix = $prix + ($plat['object']->getPriceWt() * $plat['qty']);
+        }
+
+        return $prix;
+    }
+
 
 }
 

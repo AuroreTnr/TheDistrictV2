@@ -16,6 +16,7 @@ final class PanierController extends AbstractController
     {
         return $this->render('panier/index.html.twig', [
             'panier' => $panier->getPanier(),
+            'totalWt' => $panier->getNetTotalWt(),
         ]);
     }
 
