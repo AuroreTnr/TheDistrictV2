@@ -38,8 +38,10 @@ final class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
 
+            $user->setRoles(["ROLE_CLIENT"]);
+
+            $user = $form->getData();
 
             $user_nom = $user->getNom();
             $user_prenom = $user->getPrenom();
@@ -56,7 +58,7 @@ final class RegisterController extends AbstractController
 
             $this->setEmail->registerEmail($user_email,'Bienvenue sur TheDisctrict ! Confirmez votre adresse email', 'emails/register.html.twig', $user_nom, $user_prenom);
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
 
             } catch (Exception $e) {
                 throw new Exception("Erreur lors de l envoie de l email : " . $e->getMessage());

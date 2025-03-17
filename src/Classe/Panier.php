@@ -4,7 +4,9 @@ namespace App\Classe;
 
 use App\Entity\Plat;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_CLIENT', message: "Nous sommes désolés, vous ne disposez pas des autorisations nécessaires pour accèder à cette page!")]
 class Panier
 {
     public function __construct(private RequestStack $requestStack)
