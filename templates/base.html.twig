@@ -70,7 +70,7 @@
           <div class="d-flex flex-end gap-3">
             {% if app.user %}
               <a href="{{ path('app_account')}}" class="d-md-flex order-md-5 text-light">{{app.user.prenom}}</a>
-                  {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                  {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CHEF') %}
                     <a href="{{path('admin')}}"><i class="bi bi-pencil-square text-light"></i></a>
                   {% endif %}
 
