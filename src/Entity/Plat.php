@@ -87,7 +87,7 @@ class Plat
 
     public function setPrix(string $prix): static
     {
-        $this->prix = $prix;
+        $this->prix = number_format($prix, 2, '.', '');
 
         return $this;
     }

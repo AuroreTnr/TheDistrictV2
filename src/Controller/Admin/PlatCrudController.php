@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
@@ -33,7 +34,7 @@ class PlatCrudController extends AbstractCrudController
             TextField::new('libelle')
                 ->setLabel('Titre')
                 ->setHelp('Le nom du plat'),
-            SlugField::new('slug')
+            SlugField::new('slug')->onlyOnForms()
                 ->setTargetFieldName('libelle')
                 ->setHelp('Le slug est géré automatiquement en fonction du titre de votre plat'),
             ImageField::new('image')
@@ -44,13 +45,20 @@ class PlatCrudController extends AbstractCrudController
                 ->setUploadDir('public/asset/uploads/images/plat/')  // chemin ou admin doit chercher
                 ->setRequired($required),
             NumberField::new('prix')
-                ->setHelp('Le prix du plat TTC, sans le sigle euro'),
-            TextEditorField::new('description'),
+            ->setHelp('Le prix du plat TTC, sans le sigle euro')
+            ->setNumDecimals(2),
+            TextEditorField::new('description')->onlyOnForms(),
             AssociationField::new('categorie')
                 ->setHelp('Choisissez une catégorie'),
             BooleanField::new('active')
-                ->setLabel('En stock')
-                ->setHelp('Activer ou déactiver en fonction du stock')
+                ->setLabel('En stock'),
+            ChoiceField::new('tva')
+                ->setLabel('Taux de tva')
+                ->setChoices([
+                '5,5%' => '5.5',
+                '10%' => '10',
+                '20%' => '20'
+            ])->onlyOnForms(),
             
         ];
     }
