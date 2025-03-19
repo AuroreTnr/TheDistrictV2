@@ -19,25 +19,27 @@ class Commande
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_commande = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $total = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nomTransporteur = null;
 
     #[ORM\Column]
-    private ?int $etat = null;
+    private ?float $prixTransporteur = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $adresseLivraison = null;
 
     /**
-     * @var Collection<int, Detail>
+     * @var Collection<int, DetailCommande>
      */
-    #[ORM\OneToMany(targetEntity: Detail::class, mappedBy: 'commande')]
-    private Collection $details;
-
-    #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?User $utilisateur = null;
+    #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'maCommande')]
+    private Collection $detailCommandes;
 
     public function __construct()
     {
-        $this->details = new ArrayCollection();
+        $this->detailCommandes = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -56,68 +58,68 @@ class Commande
         return $this;
     }
 
-    public function getTotal(): ?string
+    public function getNomTransporteur(): ?string
     {
-        return $this->total;
+        return $this->nomTransporteur;
     }
 
-    public function setTotal(string $total): static
+    public function setNomTransporteur(string $nomTransporteur): static
     {
-        $this->total = $total;
+        $this->nomTransporteur = $nomTransporteur;
 
         return $this;
     }
 
-    public function getEtat(): ?int
+    public function getPrixTransporteur(): ?float
     {
-        return $this->etat;
+        return $this->prixTransporteur;
     }
 
-    public function setEtat(int $etat): static
+    public function setPrixTransporteur(float $prixTransporteur): static
     {
-        $this->etat = $etat;
+        $this->prixTransporteur = $prixTransporteur;
+
+        return $this;
+    }
+
+    public function getAdresseLivraison(): ?string
+    {
+        return $this->adresseLivraison;
+    }
+
+    public function setAdresseLivraison(string $adresseLivraison): static
+    {
+        $this->adresseLivraison = $adresseLivraison;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Detail>
+     * @return Collection<int, DetailCommande>
      */
-    public function getDetails(): Collection
+    public function getDetailCommandes(): Collection
     {
-        return $this->details;
+        return $this->detailCommandes;
     }
 
-    public function addDetail(Detail $detail): static
+    public function addDetailCommande(DetailCommande $detailCommande): static
     {
-        if (!$this->details->contains($detail)) {
-            $this->details->add($detail);
-            $detail->setCommande($this);
+        if (!$this->detailCommandes->contains($detailCommande)) {
+            $this->detailCommandes->add($detailCommande);
+            $detailCommande->setMaCommande($this);
         }
 
         return $this;
     }
 
-    public function removeDetail(Detail $detail): static
+    public function removeDetailCommande(DetailCommande $detailCommande): static
     {
-        if ($this->details->removeElement($detail)) {
+        if ($this->detailCommandes->removeElement($detailCommande)) {
             // set the owning side to null (unless already changed)
-            if ($detail->getCommande() === $this) {
-                $detail->setCommande(null);
+            if ($detailCommande->getMaCommande() === $this) {
+                $detailCommande->setMaCommande(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUtilisateur(): ?User
-    {
-        return $this->utilisateur;
-    }
-
-    public function setUtilisateur(?User $utilisateur): static
-    {
-        $this->utilisateur = $utilisateur;
 
         return $this;
     }
