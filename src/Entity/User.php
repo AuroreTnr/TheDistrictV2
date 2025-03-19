@@ -41,8 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 150, nullable: true)]
-    private ?string $telephone = null;
 
 
     /**
@@ -51,9 +49,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur')]
     private Collection $commandes;
 
+    /**
+     * @var Collection<int, Adresse>
+     */
+    #[ORM\OneToMany(targetEntity: Adresse::class, mappedBy: 'user')]
+    private Collection $adresses;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->adresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,18 +160,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?string $telephone): static
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
 
     /**
      * @return Collection<int, Commande>
@@ -192,6 +185,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commande->getUtilisateur() === $this) {
                 $commande->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adresse>
+     */
+    public function getAdresses(): Collection
+    {
+        return $this->adresses;
+    }
+
+    public function addAdress(Adresse $adress): static
+    {
+        if (!$this->adresses->contains($adress)) {
+            $this->adresses->add($adress);
+            $adress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adresse $adress): static
+    {
+        if ($this->adresses->removeElement($adress)) {
+            // set the owning side to null (unless already changed)
+            if ($adress->getUser() === $this) {
+                $adress->setUser(null);
             }
         }
 

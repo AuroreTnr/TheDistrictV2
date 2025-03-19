@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250317092525 extends AbstractMigration
+final class Version20250319091854 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,16 @@ final class Version20250317092525 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE plat CHANGE tva tva DOUBLE PRECISION NOT NULL');
+        $this->addSql('ALTER TABLE adresse ADD user_id INT NOT NULL');
+        $this->addSql('ALTER TABLE adresse ADD CONSTRAINT FK_C35F0816A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('CREATE INDEX IDX_C35F0816A76ED395 ON adresse (user_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE plat CHANGE tva tva NUMERIC(10, 2) NOT NULL');
+        $this->addSql('ALTER TABLE adresse DROP FOREIGN KEY FK_C35F0816A76ED395');
+        $this->addSql('DROP INDEX IDX_C35F0816A76ED395 ON adresse');
+        $this->addSql('ALTER TABLE adresse DROP user_id');
     }
 }
