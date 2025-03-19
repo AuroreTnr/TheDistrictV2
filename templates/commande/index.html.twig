@@ -1,20 +1,32 @@
 {% extends 'base.html.twig' %}
+{% block title %}Commander{% endblock %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{asset('asset/css/style.css')}}">
+{% endblock %}
+
+
+{% block baniere %}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/aurore/Bureau/TheDistrictV2/src/Controller/CommandeController.php</code></li>
-        <li>Your template at <code>/home/aurore/Bureau/TheDistrictV2/templates/commande/index.html.twig</code></li>
-    </ul>
+
+<div class="container my-2 bg-light p-2">
+  <h3>Ma commande</h3>
+
+   {{ form_start(adresseForm) }}
+    {{ form_row(adresseForm.adresses)}}
+    <a href="{{ path('app_account_adresse_form')}}" class="small">Ajouter une nouvelle adresse de livraison</a>
+    <hr>
+    {{ form_row(adresseForm.transporteur)}}
+   {{ form_end(adresseForm) }}
+
+
 </div>
+    
+
+
+{% block video %}{% endblock %}
 {% endblock %}

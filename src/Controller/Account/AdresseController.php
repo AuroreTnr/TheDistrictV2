@@ -74,7 +74,14 @@ class AdresseController extends AbstractController
 
             $this->addFlash('success', "Votre adresse est correctement sauvegardée");
 
+
+            if ($panier->fullPanierQuantity() > 0) {
+                return $this->redirectToRoute('app_commande');
+            }
+
+
             return $this->redirectToRoute('app_account_adresses');
+
 
 
         }

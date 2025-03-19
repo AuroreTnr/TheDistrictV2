@@ -38,6 +38,12 @@ class Adresse
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    // on affiche l adresse
+    public function __toString()
+    {
+        return $this->getNom() . ' ' . $this->getPrenom() . '<br> ' . $this->getAdresse() . '<br>' . $this->getVille() . ' - ' . $this->getPays();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

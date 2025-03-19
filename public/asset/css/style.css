@@ -158,7 +158,28 @@ header span {
     color: var(--white-color);
     font-size: 15px;
     margin-right: 5px;
- }
+}
+
+
+
+/* --------------------------------------- */
+
+#commande_adresses .form-check {
+    background: lightgray;
+    padding: 10px 40px;}
+
+#commande_transporteur .form-check {
+    background: lightgray;
+    padding: 10px 40px;}
+
+
+
+
+
+
+
+
+
 
 
 
