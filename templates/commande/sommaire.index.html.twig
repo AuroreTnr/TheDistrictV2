@@ -13,38 +13,69 @@
 
 
 <div class="row bg-light m-3 p-2">
-  <h3>Récapitulatif de ma commande</h3>
-
+     <h3>Récapitulatif de ma commande</h3>
+     
   <div class="col-md-8">
-    contenue de mon panier <br>
-    adresse de livraison choisie par l utilisateur <br>
-    le transporteur choisie par l utilisateur
+       <div class="bg-secondary-subtle p-3">
+         <strong>Contenue de mon panier :</strong><br>
+         {% for plat in panier %}
+           <div class="row mt-2">
+               <div class="col-md-2">
+                 <img src="{{ asset('asset/uploads/images/plat/' ~ plat.object.image) }}" alt="{{plat.object.libelle}} " style="max-width: 50px; height: 50px; object-fit: cover;" class="img-fluid rounded-circle">
+               </div>
+               <div class="col-md-4">
+                 <strong>{{plat.object.libelle}}</strong>
+                 <span class="d-block small">Prix unitaire {{plat.object.getPriceWt()|price}}</span>
+               </div>
+               <div class="col-md-3 text-right">
+               <span>
+                   x {{plat.qty}}
+               </span>
+               </div>
+               <div class="col-md-2">
+                 <strong>{{(plat.object.getPriceWt() * plat.qty)|price}}</strong>
+               </div>
+           </div>
+         {% endfor %}
+    </div>
 
-  </div>
+    <hr>
+
+
+     <div class="bg-secondary-subtle p-3 my-3">
+          <strong>Votre adresse de livraison :</strong> <br>
+          {{ choix.adresses.prenom }}
+          {{ choix.adresses.nom }} <br>
+          {{ choix.adresses.adresse }} <br>
+          {{ choix.adresses.ville }} - {{ choix.adresses.pays }}      
+     </div>
+     <div class="bg-secondary-subtle p-3 my-3">
+          <strong>Votre transporteur :</strong> <br>
+          {{ choix.transporteur.nom }} <br>
+          {{ choix.transporteur.description }} <br>      
+     </div>
+
+</div>
 
 
   <div class="col-md-4">
     <div class="bg-secondary-subtle p-3">
        <div class="d-flex justify-content-between">
-            <span class="fw-bold">Total produit :</span>
-            <span></span>
+          <span class="fw-bold">Total Transporteur :</span>
+          <span>{{ choix.transporteur.prix|price }}</span>
        </div> 
        <div class="d-flex justify-content-between">
-            <span class="fw-bold">Total Transporteur :</span>
-            <span></span>
+            <span class="fw-bold">Total commande TTC :</span>
+            <span>{{ (totalWt + choix.transporteur.prix)|price }}</span>
        </div> 
        <div class="d-flex justify-content-between mt-3">
-            <span class="fw-bold">Total commande TTC:</span>
-            <span></span>
-       </div> 
-       <div class="d-flex justify-content-between mt-3">
-        <a href="#" class="btn btn-success w-100 mt-2">Commander</a>
+        <a href="#" class="btn btn-success w-100 mt-2">Payer</a>
        </div> 
     </div>
     
      
 
-</div></div>
+</div>
 
 
 {% block video %}{% endblock %}

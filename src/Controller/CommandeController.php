@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Classe\Panier;
 use App\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -18,6 +20,7 @@ final class CommandeController extends AbstractController
     public function index(): Response
     {
 
+
         $adresses = $this->getUser()->getAdresses();
 
         if (count($adresses) == 0) {
@@ -25,8 +28,10 @@ final class CommandeController extends AbstractController
         }
 
         $form = $this->createForm(CommandeType::class, null, [
-            // permet de mettre dans notre case option du formulaire les adresses de l utilisateur.
+            // permet de mettre dans notre case option du formulaire les adresses DE l utilisateur.
             'adresses' => $adresses,
+            // permet de passer les information vers une autre route ici app_commande_sommaire
+            'action' => $this->generateUrl('app_commande_sommaire')
         ]);
 
 
@@ -45,12 +50,30 @@ final class CommandeController extends AbstractController
      * preparation du paiement vers stripe
      */
     #[Route('/commande/recapitulatif', name: 'app_commande_sommaire')]
-    public function add(): Response
+    public function add(Request $request, Panier $panier): Response
     {
 
+        if ($request->getMethod() != 'POST') {
+            return $this->redirectToRoute('app_panier');
+        }
 
 
+        $form = $this->createForm(CommandeType::class, null, [
+            // permet de mettre dans notre case option du formulaire les adresses DE l utilisateur.
+            'adresses' => $this->getUser()->getAdresses(),
+        ]);
 
-        return $this->render('commande/sommaire.index.html.twig');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // stoker les informations
+        }
+
+
+        return $this->render('commande/sommaire.index.html.twig', [
+            'choix' => $form->getData(),
+            'panier' => $panier->getPanier(),
+            'totalWt' => $panier->getNetTotalWt(),
+        ]);
     }
 }

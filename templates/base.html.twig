@@ -96,7 +96,6 @@
     <main>
       
 
-      {% if app.flashes %}
       <div class="container w-50 mt-4">
         {% for label, messages in app.flashes %}
           {% for message in messages %}
@@ -107,7 +106,6 @@
         {% endfor %}
       </div>
 
-      {% endif %}
       
       <div>
       {% block body %}
