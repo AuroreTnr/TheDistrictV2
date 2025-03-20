@@ -135,7 +135,7 @@ class Plat
     {
         $coeff = 1 + ($this->tva/100);
 
-        return $coeff * $this->prix;
+        return number_format($coeff * $this->prix, 2, '.', '');
     }
 
     public function getTva(): ?float

@@ -32,8 +32,17 @@ class Commande
     /**
      * @var Collection<int, DetailCommande>
      */
-    #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'maCommande')]
+    #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'maCommande', cascade: ['persist'])]
     private Collection $detailCommandes;
+
+    /**
+     * 
+     * 1 : En attente de paiement
+     * 2 : Paimement validé
+     * 3 : Expédié
+     */
+    #[ORM\Column]
+    private ?int $status = null;
 
     public function __construct()
     {
@@ -120,6 +129,18 @@ class Commande
                 $detailCommande->setMaCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

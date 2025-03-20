@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Classe\Panier;
+use App\Entity\Commande;
+use App\Entity\DetailCommande;
 use App\Form\CommandeType;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,8 +54,10 @@ final class CommandeController extends AbstractController
      * preparation du paiement vers stripe
      */
     #[Route('/commande/recapitulatif', name: 'app_commande_sommaire')]
-    public function add(Request $request, Panier $panier): Response
+    public function add(Request $request, Panier $panier, EntityManagerInterface $entityManagerInterface): Response
     {
+
+        $plats = $panier->getPanier();
 
         if ($request->getMethod() != 'POST') {
             return $this->redirectToRoute('app_panier');
@@ -66,13 +72,49 @@ final class CommandeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // stoker les informations
+
+
+            // creation de la chaine adresse
+            $adresseObjet = $form->get('adresses')->getData();
+
+            $adresse = $adresseObjet->getPrenom() . ' ' . $adresseObjet->getNom() . "<br>";
+            $adresse .= $adresseObjet->getAdresse() . "<br>";
+            $adresse .= $adresseObjet->getPostal() . $adresseObjet->getVille() . "<br>";
+            $adresse .= $adresseObjet->getPays() . "<br>";
+            $adresse .= $adresseObjet->getPhone() . "<br>";
+
+            // creation commande
+            $commande = new Commande();
+            $commande->setDateCommande(new \DateTime());
+            $commande->setStatus(1);
+            $commande->setNomTransporteur($form->get('transporteur')->getData()->getNom());
+            $commande->setPrixTransporteur($form->get('transporteur')->getData()->getPrix());
+            $commande->setAdresseLivraison($adresse);
+
+            // details commande
+            foreach ($plats as $plat) {
+                $detailCommande = new DetailCommande();
+                $detailCommande->setNomPlat($plat['object']->getLibelle());
+                $detailCommande->setIllustrationPlat($plat['object']->getImage());
+                $detailCommande->setPrixPlat($plat['object']->getPriceWt());
+                $detailCommande->setTvaPlat($plat['object']->getTva());
+                $detailCommande->setQuantitePlat($plat['qty']);
+                // insertion des detail commande dans la commande î
+                $commande->addDetailCommande($detailCommande);
+            }
+
+            // inserer les données
+            $entityManagerInterface->persist($commande);
+            $entityManagerInterface->flush();
+
         }
 
 
         return $this->render('commande/sommaire.index.html.twig', [
             'choix' => $form->getData(),
-            'panier' => $panier->getPanier(),
+            'panier' => $plats,
             'totalWt' => $panier->getNetTotalWt(),
         ]);
     }
