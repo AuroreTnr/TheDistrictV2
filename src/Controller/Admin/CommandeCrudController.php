@@ -7,8 +7,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -43,7 +45,11 @@ class CommandeCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             DateField::new('date_commande')->setLabel('Date'),
-            TextField::new('status')->setLabel('Status'),
+            NumberField::new('status')->setLabel('Status commande')->setTemplatePath('admin/status.html.twig'),
+            AssociationField::new('user')->setLabel('Client'),
+            TextField::new('nomTransporteur')->setLAbel('Transporteur'),
+            NumberField::new('totalWt')->setLabel('Total TTC'),
+            NumberField::new('totalTva')->setLabel('Total TVA'),
         ];
     }
     

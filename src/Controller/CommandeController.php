@@ -87,6 +87,7 @@ final class CommandeController extends AbstractController
 
             // creation commande
             $commande = new Commande();
+            $commande->setUser($this->getUser());
             $commande->setDateCommande(new \DateTime());
             $commande->setStatus(1);
             $commande->setNomTransporteur($form->get('transporteur')->getData()->getNom());

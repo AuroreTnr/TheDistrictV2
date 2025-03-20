@@ -44,9 +44,35 @@ class Commande
     #[ORM\Column]
     private ?int $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user_commande')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
+    }
+
+    public function getTotalWt()
+    {
+        return 400;
+    }
+
+    public function getTotalTva()
+    {
+
+        $totalTva = 0; 
+
+        $plats = $this->getDetailCommandes();
+
+        foreach ($plats as $plat) {
+            // dd($plat);
+            $coeff = $plat->getTvaPlat() / 100;
+            $tvaPlat = $plat->getPrixPlat() * $coeff;
+
+            $totalTva += round($tvaPlat, 2);
+        }
+        return round($totalTva, 2);
     }
 
 
@@ -141,6 +167,18 @@ class Commande
     public function setStatus(int $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
