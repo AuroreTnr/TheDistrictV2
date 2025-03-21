@@ -55,7 +55,17 @@ class Commande
 
     public function getTotalWt()
     {
-        return 400;
+        $totalTTC = 0; 
+
+        $plats = $this->getDetailCommandes();
+
+        foreach ($plats as $plat) {
+            $coeff = 1+ ($plat->getTvaPlat() / 100);
+            $tvaPlat = $plat->getPrixPlat() * $coeff;
+
+            $totalTTC += round($tvaPlat, 2);
+        }
+        return round($totalTTC, 2);
     }
 
     public function getTotalTva()
@@ -66,7 +76,6 @@ class Commande
         $plats = $this->getDetailCommandes();
 
         foreach ($plats as $plat) {
-            // dd($plat);
             $coeff = $plat->getTvaPlat() / 100;
             $tvaPlat = $plat->getPrixPlat() * $coeff;
 

@@ -6,13 +6,16 @@ use App\Entity\Commande;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommandeCrudController extends AbstractCrudController
 {
@@ -32,10 +35,26 @@ class CommandeCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $show = Action::new('Afficher')
+            ->linkToCrudAction('show')
+            ->setLabel('la commande');
+
         return $actions
+            ->add(Crud::PAGE_INDEX, $show)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->remove(Crud::PAGE_INDEX, Action::DELETE);
+
+        
+    }
+
+    public function show(AdminContext $context)
+    {
+        dd($context);
+        
+        $commande = $context->getEntity()->getInstance();
+
+
     }
     
 
