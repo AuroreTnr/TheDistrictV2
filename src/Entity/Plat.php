@@ -23,7 +23,7 @@ class Plat
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $prix = null;
+    private ?float $prix = null;
 
     #[ORM\Column]
     private ?float $tva = null;
@@ -76,9 +76,9 @@ class Plat
         return $this->prix;
     }
 
-    public function setPrix(string $prix): static
+    public function setPrix(float $prix): static
     {
-        $this->prix;
+        $this->prix = $prix;
 
         return $this;
     }
