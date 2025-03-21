@@ -99,7 +99,7 @@ final class CommandeController extends AbstractController
                 $detailCommande = new DetailCommande();
                 $detailCommande->setNomPlat($plat['object']->getLibelle());
                 $detailCommande->setIllustrationPlat($plat['object']->getImage());
-                $detailCommande->setPrixPlat($plat['object']->getPriceWt());
+                $detailCommande->setPrixPlat($plat['object']->getPrix());
                 $detailCommande->setTvaPlat($plat['object']->getTva());
                 $detailCommande->setQuantitePlat($plat['qty']);
                 // insertion des detail commande dans la commande î
