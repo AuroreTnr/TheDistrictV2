@@ -11,4 +11,142 @@
 
 {% block body %}
 
+    <!-- AFFICHAGE PLATS POPULAIRE -->
+
+
+
+      
+        {% if platsPopulaire|length > 0 %}
+
+        <h2 class="text-center mt-5 text-decoration-underline" >Plats Populaires</h2>
+
+        <div class="container-fluid p-4">
+          <div class="row align-items-center justify-content-center container-plat">
+  
+            {% for plat in platsPopulaire %}
+            <div class="col-9 col-md-6 col-lg-3" data-key="{{ plat.libelle }}">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ asset('asset/uploads/images/plat/' ~ plat.image) }}" class="img-fluid rounded-start" alt="{{ plat.libelle }}">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                        <div class="d-flex align-items-baseline justify-content-between align-self-end">
+                            <p class="card-text"><small class="text-body-secondary">{{ (plat.prix * (1 + plat.tva / 100))|price }}</small></p>
+                            <a href="{{ path('app_cart_add', { id : plat.id }  )}}" class="btn small border-warning text-dark">add <i class="bi bi-plus"></i></a>
+                            </div>
+                        <h5 class="card-title fs-6">{{ plat.libelle }}</h5>
+                        <p class="card-text">{{ plat.description|raw }}</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+            {% endfor %}
+            </div>
+        </div>
+
+        {% endif %}
+        
+
+
+                
+
+
+
+          <!-- AFFICHAGE CATEGORIE POPULAIRE -->
+    
+    <section>
+        {% if categoriesPopulaire|length > 0 %}
+    <h2 class="text-center mt-5 text-decoration-underline">Catégories Populaires</h2>
+
+      <div class="container-fluid p-4 container-plat">
+        <div class="row align-items-center justify-content-center">
+          
+
+            {% for categorie in categoriesPopulaire %}
+            <div class="col-9 col-md-6 col-lg-3 card-categorie">
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="{{ asset('asset/uploads/images/categorie/' ~ categorie.image) }}" class="img-fluid rounded-start" alt="pizza">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title fs-6">{{ categorie.libelle}}</h5>
+                        <p class="card-text">Lorem ipsum dolor sit amet.</p>
+                        <a href="#" class="stretched-link"></a>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            {% endfor %}
+                
+      
+        </div>
+      </div>
+
+    </section>
+    {% endif %}
+
+
+
+      <!-- AFFICHAGE CAROUSEL -->
+<div class="container container-fluid my-5">
+  <div id="carouselExampleAutoplaying" class="carousel slide container-fluid" data-bs-ride="carousel" style="width: 100%;">
+
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+  
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{ asset('asset/uploads/images/plat/2025-03-07-3b4d28c34a3c894e7a5b7ef3f6a904229a48de56.jpg') }}" class="d-block img-carousel" alt="cuisine veggie">
+        <div class="carousel-caption text-start">
+          <h2>Cuisine Veggie.</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, aliquid!.</p>
+          <p><a class="btn btn-lg btn-dark" href="{{ path('app_plats')}}">Plats</a></p>
+        </div>
+      </div>
+  
+      <div class="carousel-item">
+        <img src="{{ asset('asset/uploads/images/plat/2025-03-07-6a0a18cb643818e5a9162b5c3d36760ceec6d2fa.jpg') }}" class="d-block img-carousel" alt="pizza margherita">
+        <div class="carousel-caption text-start">
+          <h2>Cuisine Italienne.</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, culpa!.</p>
+          <p><a class="btn btn-lg btn-dark" href="{{ path('app_plats')}}">Plats</a></p>
+        </div>
+      </div>
+  
+      <div class="carousel-item">
+        <img src="{{ asset('asset/uploads/images/plat/2025-03-07-bd72a96e8a82432a34223d59854078db300dc68e.jpg') }}" class="d-block img-carousel" alt="sushi">
+        <div class="carousel-caption text-start">
+          <h2>Cuisine Asiatique.</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, inventore?</p>
+          <p><a class="btn btn-lg btn-dark" href="{{ path('app_plats')}}">Plats</a></p>
+        </div>
+      </div>
+    </div>
+  
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+
 {% endblock %}

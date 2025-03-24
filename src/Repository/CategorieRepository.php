@@ -19,6 +19,35 @@ class CategorieRepository extends ServiceEntityRepository
     }
 
 
+    /**
+ * donne les categories populaire avec une limite à 6
+ * @param mixed $db
+ * @return mixed
+ */
+function get_populaire_categorie() {
+    $connection = $this->getEntityManager()->getConnection();
+
+    $sql = '
+    SELECT 
+        categorie.libelle, 
+        categorie.id,
+        categorie.image, 
+        categorie.slug, 
+        SUM(detail_commande.quantite_plat) AS total_quantite
+    FROM detail_commande
+    JOIN plat ON detail_commande.nom_plat = plat.libelle
+    JOIN categorie ON plat.categorie_id = categorie.id
+    GROUP BY categorie.id
+    ORDER BY total_quantite DESC
+    LIMIT 6    ';
+
+    $resultSet = $connection->executeQuery($sql);
+
+    return $resultSet->fetchAllAssociative();
+}
+
+
+
     //    /**
     //     * @return Categorie[] Returns an array of Categorie objects
     //     */

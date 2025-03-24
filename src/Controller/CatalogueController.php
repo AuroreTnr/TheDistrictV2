@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Classe\Pagination;
 use App\Entity\Categorie;
 use App\Entity\Plat;
+use App\Repository\CategorieRepository;
+use App\Repository\PlatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +18,7 @@ final class CatalogueController extends AbstractController
 
     private $pagination;
 
-    public function __construct(Pagination $pagination)
+    public function __construct(Pagination $pagination, EntityManagerInterface $entityManagerInterface)
     {
         $this->pagination = $pagination;
     }
@@ -24,9 +27,16 @@ final class CatalogueController extends AbstractController
 
 
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(PlatRepository $platRepository, CategorieRepository $categorieRepository): Response
     {
-        return $this->render('catalogue/index.html.twig');
+
+        $platsPopulaire = $platRepository->get_populaire_plat();
+        $categoriesPopulaire = $categorieRepository->get_populaire_categorie();
+
+        return $this->render('catalogue/index.html.twig', [
+            'platsPopulaire' => $platsPopulaire,
+            'categoriesPopulaire' => $categoriesPopulaire,
+        ]);
     }
 
 

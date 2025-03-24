@@ -20,6 +20,28 @@ class PlatRepository extends ServiceEntityRepository
     }
 
 
+    /**
+ * donne les plats les plus populaire
+ * @param mixed $db
+ * @return mixed
+ */
+    public function get_populaire_plat() {
+  
+        $connection = $this->getEntityManager()->getConnection();
+
+        $sql = '
+        SELECT plat.*, SUM(detail_commande.quantite_plat) AS total_quantite
+        FROM detail_commande
+        JOIN plat ON detail_commande.nom_plat = plat.libelle
+        GROUP BY plat.libelle
+        ORDER BY total_quantite DESC
+        LIMIT 6
+        ';
+
+        $resultSet = $connection->executeQuery($sql);
+
+        return $resultSet->fetchAllAssociative();
+}
 
 
 
