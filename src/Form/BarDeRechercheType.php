@@ -15,11 +15,18 @@ class BarDeRechercheType extends AbstractType
         $builder
             ->add('query', TextType::class, [
                 'required' => false,
+                'label' =>false,
                 'attr'=>[
                     'placeholder' => 'Rechercher un plat ...',
+                    'class' => 'form-control rounded-end-0'
                 ]
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Rechercher',
+                'attr' => [
+                    'class' => 'btn btn-outline-warning rounded-start-0 '
+                ]
+            ])
         ;
     }
 

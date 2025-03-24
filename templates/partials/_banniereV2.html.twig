@@ -1,24 +1,24 @@
-        <!-- BANNIERE -->
-        <div class="container-items position-relative d-flex justify-content-center align-items-center">
-            <img class="card-img position-relative" src="{{ asset('asset/img/bg3.jpeg')}}" alt="photo de légumes savoureux">    
-            <div class="text-banniere position-absolute">
-                <h5 class="card-title text-white">{{name}}</h5>
-    
-                <!-- Condition affichage search -->
-    
-    
-    
-                <div class="input-group input-group-sm mb-1 justify-content-center d-flex">
-                    <!-- formulaire recherche -->
-                    <form action="plats.php" method="get" class="d-flex w-100">
-                        <input type="text" name="search" placeholder="rechercher un plat ..." 
-                            value="" 
-                            class="p-1 form-control me-2">
-                        <input type="submit" class="btn btn-light btn-sm text-secondary" value="Rechercher">
-                    </form>
+<!-- BANNIERE -->
+<div class="container-items position-relative d-flex justify-content-center align-items-center">
+    <img class="card-img position-relative" src="{{ asset('asset/img/bg3.jpeg')}}" alt="photo de légumes savoureux">    
+    <div class="text-banniere position-absolute">
+        <h5 class="card-title text-white">{{name}}</h5>
+
+        <!-- Condition affichage search -->
+
+        <!-- formulaire recherche -->
+        {{ form_start(barRecherche) }}                        
+            <div class="container mt-5">
+                <div class="input-group">
+                {{ form_row(barRecherche.query) }}
+                
+                    <div class="input-group-append">
+                        {{ form_row(barRecherche.submit) }}
+                    </div>
                 </div>
-    
-    
             </div>
-            </div>
+        {{ form_end(barRecherche) }}
+
+    </div>
+    </div>
     
