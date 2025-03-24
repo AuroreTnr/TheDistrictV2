@@ -24,15 +24,23 @@ final class CatalogueController extends AbstractController
         $this->pagination = $pagination;
     }
 
+    
+    public function createFormRecherche(Request $request){
+        $createFormRecherche = $this->createForm(BarDeRechercheType::class);
+        $createFormRecherche->handleRequest($request);
+            
+        
+        return $createFormRecherche->createView();
+    }
+
 
 
 
     #[Route('/', name: 'app_home')]
     public function index(PlatRepository $platRepository, CategorieRepository $categorieRepository, Request $request): Response
     {
-        $formRecherche = $this->createForm(BarDeRechercheType::class);
-        $formRecherche->handleRequest($request);
-        $hello = 'hello dgergergergergeq';
+
+        $form = $this->createFormRecherche($request);
 
         $platsPopulaire = $platRepository->get_populaire_plat();
         $categoriesPopulaire = $categorieRepository->get_populaire_categorie();
@@ -40,16 +48,15 @@ final class CatalogueController extends AbstractController
         return $this->render('catalogue/index.html.twig', [
             'platsPopulaire' => $platsPopulaire,
             'categoriesPopulaire' => $categoriesPopulaire,
-            'barRecherche' => $formRecherche->createView()
+            'barRecherche' => $form
         ]);
     }
 
 
     #[Route('/plats/{page?1}', name: 'app_plats')]
-    public function showPlats(Request $request, $page): Response
+    public function showPlats($page, Request $request): Response
     {
-        $formRecherche = $this->createForm(BarDeRechercheType::class);
-        $formRecherche->handleRequest($request);
+        $form = $this->createFormRecherche($request);
 
         $result = $this->pagination->setPagination(Plat::class, 6, $page);
 
@@ -58,16 +65,15 @@ final class CatalogueController extends AbstractController
             'isPaginated' => $result['isPaginated'],
             'nbre_de_page' => $result['nbre_de_page'],
             'page' => $result['page'],
-            'barRecherche' => $formRecherche->createView()
+            'barRecherche' => $form
         ]);
     }
 
     #[Route('/categorie/{page?1}', name: 'app_categorie')]
-    public function showCategorie(Request $request, $page): Response
+    public function showCategorie($page, Request $request): Response
     {
 
-        $formRecherche = $this->createForm(BarDeRechercheType::class);
-        $formRecherche->handleRequest($request);
+        $form = $this->createFormRecherche($request);
 
         $result = $this->pagination->setPagination(Categorie::class, 4, $page);
 
@@ -76,7 +82,7 @@ final class CatalogueController extends AbstractController
             'isPaginated' => $result['isPaginated'],
             'nbre_de_page' => $result['nbre_de_page'],
             'page' => $result['page'],
-            'barRecherche' => $formRecherche->createView()
+            'barRecherche' => $form
 
         ]);
     }
