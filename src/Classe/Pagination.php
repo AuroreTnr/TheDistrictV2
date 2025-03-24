@@ -16,18 +16,35 @@ class Pagination
 
 
 
-    public function setPagination($classRepository, $nbre_objet_par_page, $page)
+    public function setPagination($classRepository, $nbre_objet_par_page, $page, $searchQuery = '')
     {
 
         $repository = $this->entityManager->getRepository($classRepository);
 
-        $nbre_total_objet = $repository->count();
+        $queryBuilder = $repository->createQueryBuilder('p')
+            ->setFirstResult(($page - 1) * $nbre_objet_par_page)
+            ->setMaxResults($nbre_objet_par_page);
+
+        if ($searchQuery) {
+            $queryBuilder->andWhere('p.libelle LIKE :search')
+                ->setParameter('search', '%' . $searchQuery . '%');
+        }
+
+        $query = $queryBuilder->getQuery();
+
+        $objets = $query->getResult();
+
+        $nbre_total_objet = $repository->createQueryBuilder('e')
+        ->select('COUNT(e.id)')
+        ->getQuery();
+
+        $nbre_total_objet = $nbre_total_objet->getSingleScalarResult();
+
 
         $nbre_de_page = ceil($nbre_total_objet / $nbre_objet_par_page);
         
         $page = max(1, min($page, $nbre_de_page));
-
-        $objets = $repository->findBy([],[], $nbre_objet_par_page, ($page - 1) * $nbre_objet_par_page);
+        
 
 
         return [

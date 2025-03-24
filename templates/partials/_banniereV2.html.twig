@@ -7,17 +7,19 @@
         <!-- Condition affichage search -->
 
         <!-- formulaire recherche -->
-        {{ form_start(barRecherche) }}                        
-            <div class="container mt-5">
-                <div class="input-group">
-                {{ form_row(barRecherche.query) }}
-                
-                    <div class="input-group-append">
-                        {{ form_row(barRecherche.submit) }}
+        {% if barRecherche is defined %}
+            {{ form_start(barRecherche) }}                        
+                <div class="container mt-5">
+                    <div class="input-group">
+                    {{ form_row(barRecherche.query) }}
+                    
+                        <div class="input-group-append">
+                            {{ form_row(barRecherche.submit) }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{ form_end(barRecherche) }}
+            {{ form_end(barRecherche) }}
+        {% endif %}
 
     </div>
     </div>

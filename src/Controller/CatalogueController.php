@@ -24,13 +24,13 @@ final class CatalogueController extends AbstractController
         $this->pagination = $pagination;
     }
 
-    
+
     public function createFormRecherche(Request $request){
         $createFormRecherche = $this->createForm(BarDeRechercheType::class);
         $createFormRecherche->handleRequest($request);
             
         
-        return $createFormRecherche->createView();
+        return $createFormRecherche;
     }
 
 
@@ -41,6 +41,12 @@ final class CatalogueController extends AbstractController
     {
 
         $form = $this->createFormRecherche($request);
+        $searchQuery = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchQuery = $form->get('query')->getData();
+            return $this->redirectToRoute('app_plats', ['search' => $searchQuery, 'page' => 1]);
+        }
 
         $platsPopulaire = $platRepository->get_populaire_plat();
         $categoriesPopulaire = $categorieRepository->get_populaire_categorie();
@@ -48,7 +54,7 @@ final class CatalogueController extends AbstractController
         return $this->render('catalogue/index.html.twig', [
             'platsPopulaire' => $platsPopulaire,
             'categoriesPopulaire' => $categoriesPopulaire,
-            'barRecherche' => $form
+            'barRecherche' => $form->createView()
         ]);
     }
 
@@ -58,14 +64,21 @@ final class CatalogueController extends AbstractController
     {
         $form = $this->createFormRecherche($request);
 
-        $result = $this->pagination->setPagination(Plat::class, 6, $page);
+        $searchQuery = $request->query->get('search', '');
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchQuery = $form->get('query')->getData();
+        }
+
+        $result = $this->pagination->setPagination(Plat::class, 6, $page, $searchQuery);
 
         return $this->render('catalogue/plats.html.twig', [
             'plats' => $result['objets'],
             'isPaginated' => $result['isPaginated'],
             'nbre_de_page' => $result['nbre_de_page'],
             'page' => $result['page'],
-            'barRecherche' => $form
+            'barRecherche' => $form->createView(),
+            'search'=> $searchQuery
         ]);
     }
 
@@ -73,7 +86,6 @@ final class CatalogueController extends AbstractController
     public function showCategorie($page, Request $request): Response
     {
 
-        $form = $this->createFormRecherche($request);
 
         $result = $this->pagination->setPagination(Categorie::class, 4, $page);
 
@@ -82,7 +94,6 @@ final class CatalogueController extends AbstractController
             'isPaginated' => $result['isPaginated'],
             'nbre_de_page' => $result['nbre_de_page'],
             'page' => $result['page'],
-            'barRecherche' => $form
 
         ]);
     }
