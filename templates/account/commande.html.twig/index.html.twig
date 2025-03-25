@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Facture de votre commande</title>
+    <title>Bootstrap demo</title>
     <style>
     .text-center {
         text-align: center;
@@ -28,6 +28,9 @@
   </head>
   <body>
     <div class="text-center">
+        <small><a href="{{path('app_account')}}" class="btn btn-light btn-sm">Retour</a></small>
+<small><a href="{{path('app_facture_client'), {id_facture : commandes.id}}}" class="btn btn-light btn-sm" target="_blank">Ma facture</a></small>
+
         <h3>Facture commande n° : {{commande.id}}</h3>
         <table style="width: 100%; border-bottom:1px solid gray;">
             <tr>
@@ -91,3 +94,4 @@
 
   </body>
 </html>
+
