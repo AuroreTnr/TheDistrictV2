@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classe\Panier;
+use App\Classe\SetEmail;
 use App\Entity\Commande;
 use App\Entity\DetailCommande;
 use App\Form\CommandeType;

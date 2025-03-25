@@ -29,7 +29,7 @@
                             <a href="{{ path('app_cart_add', { id : plat.id }  )}}" class="btn small border-warning text-dark">add <i class="bi bi-plus"></i></a>
                         </div>
                         <h5 class="card-title fs-6">{{plat.libelle}}</h5>
-                        <p class="card-text">{{plat.description|raw}}</p>
+                        <div class="card-text">{{plat.description|raw}}</div>
                         </div>
                     </div>
                     </div>
@@ -38,7 +38,6 @@
             {% endfor %}
         </div>
         </div>
-    </section>
     <div class="container d-flex justify-content-center">
         {% if isPaginated %}
             <nav aria-label="Page navigation example">
