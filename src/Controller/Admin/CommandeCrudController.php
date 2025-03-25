@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Commande;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -36,8 +37,7 @@ class CommandeCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $show = Action::new('Afficher')
-            ->linkToCrudAction('show')
-            ->setLabel('la commande');
+            ->linkToCrudAction('show');
 
         return $actions
             ->add(Crud::PAGE_INDEX, $show)
@@ -48,11 +48,16 @@ class CommandeCrudController extends AbstractCrudController
         
     }
 
-    public function show(AdminContext $context)
+
+    #[AdminAction(routePath: '{entityId}/custom-action', routeName: 'custom_action')]
+    public function show(AdminContext $context): Response
     {
-        dd($context);
         
         $commande = $context->getEntity()->getInstance();
+
+        return $this->render('admin/commande.html.twig', [
+            'commandes' => $commande
+        ]);
 
 
     }

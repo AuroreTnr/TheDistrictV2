@@ -1,0 +1,71 @@
+{% extends "@!EasyAdmin/layout.html.twig" %}
+
+{% block main %}
+
+<h3>Commande n° {{commandes.id}} </h3>
+<span>{{ include('admin/status.html.twig', { field: {'value': commandes.status} }) }}</span> <br>
+<div class="mt-3">Passée le : {{commandes.datecommande|date("d/m/Y")}}</div>
+
+
+
+
+
+<div class="row my-4">
+    <div class="col-md-6">
+        <strong>Adresse de livraison :</strong><br>
+        {{commandes.adresseLivraison|raw}}
+    </div>
+    <div class="col-md-6">
+        <strong>Transporteur :</strong><br>
+        {{commandes.nomTransporteur|raw}}
+    </div>
+</div>
+
+
+<strong>Contenu de la commande :</strong>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Illustration</th>
+        <th scope="col">Nom du produit</th>
+        <th scope="col">Quantité</th>
+        <th scope="col">Prix unitaire H.T</th>
+        <th scope="col">TVA</th>
+        <th scope="col">Total T.T.C</th>
+      </tr>
+    </thead>
+    <tbody>
+
+{% for plat in commandes.detailCommandes %}
+      <tr>
+        <td>
+            <img src="{{ asset('asset/uploads/images/plat/' ~ plat.illustrationPlat) }}" alt="{{plat.nomPlat}} " style="max-width: 50px; height: 50px; object-fit: cover;" class="img-fluid rounded-circle">        </td>
+        <td>{{ plat.nomPlat }}</td>
+        <td>{{ plat.quantitePlat }}</td>
+        <td>{{ plat.prixPlat|price }}</td>
+        <td>{{ plat.tvaPlat }}%</td>
+        {% set coeff = 1 + (plat.tvaPlat / 100) %}
+        <td>{{ ((coeff * plat.prixPlat) * plat.quantitePlat)|price }}</td>
+      </tr>
+{% endfor %}
+<tr>
+    <td></td>
+    <td>{{ commandes.nomTransporteur}}</td>
+    <td>1</td>
+    <td></td>
+    <td></td>
+    <td>{{ commandes.prixTransporteur|price}}</td>
+</tr>
+</tbody>
+</table>
+
+<div class="text-right">
+    <strong>Total H.T : </strong> {{ (commandes.totalWt - commandes.totalTva)|price}} <br>
+    <strong>Total TVA : </strong> {{ commandes.totalTva|price}} <br>
+    <strong>Total T.T.C : </strong> {{ (commandes.totalWt + commandes.prixTransporteur)|price}} <br>
+</div>
+
+
+
+
+{% endblock %}
