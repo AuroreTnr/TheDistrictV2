@@ -1,20 +1,93 @@
-{% extends 'base.html.twig' %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <style>
+    .text-center {
+        text-align: center;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .text-left {
+        text-align: left;
+    }
+    body {
+        font-family: Roboto, sans-serif;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    table td, table th {
+        padding: 0.5rem;
+        border-top: 1px solid #ccc;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="text-center">
+        <h3>Facture commande n° : {{commande.id}}</h3>
+        <table style="width: 100%; border-bottom:1px solid gray;">
+            <tr>
+                <td style="width: 75%;">
+                    <strong>TheDistrict</strong> <br>
+                    mon adresse, <br>
+                    code postal, ville. France. <br>
+                    thedistrict@gmail.com <br>
+                    02012003225
+                </td>
+                <td class="text-right">
+                    {{commande.adresseLivraison|raw}}
+                </td>
+            </tr>
+        </table>
 
-{% block title %}Hello FactureController!{% endblock %}
+        
+    </div>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div>
+        <h5>Votre commande</h5>
+        <table class="table" style="width: 100%;">
+            <thead>
+              <tr>
+                <th scope="col" class="text-left">Produit</th>
+                <th scope="col" class="text-left">Quantité</th>
+                <th scope="col" class="text-left">Prix unitaire H.T</th>
+                <th scope="col" class="text-left">TVA</th>
+                <th scope="col" class="text-right">Total T.T.C</th>
+              </tr>
+            </thead>
+            <tbody>
+        
+        {% for plat in commande.detailCommandes %}
+              <tr>
+                <td>{{ plat.nomPlat }}</td>
+                <td>{{ plat.quantitePlat }}</td>
+                <td>{{ plat.prixPlat|price }}</td>
+                <td>{{ plat.tvaPlat }}%</td>
+                {% set coeff = 1 + (plat.tvaPlat / 100) %}
+                <td class="text-right">{{ ((coeff * plat.prixPlat) * plat.quantitePlat)|price }}</td>
+              </tr>
+        {% endfor %}
+        <tr>
+            <td>{{ commande.nomTransporteur}}</td>
+            <td>1</td>
+            <td></td>
+            <td></td>
+            <td class="text-right"> {{ commande.prixTransporteur|price}}</td>
+        </tr>
+        </tbody>
+        </table>
+        
+        <div class="text-right">
+            <strong>Total H.T : </strong> {{ (commande.totalWt - commande.totalTva)|price}} <br>
+            <strong>Total TVA : </strong> {{ commande.totalTva|price}} <br>
+            <strong>Total T.T.C : </strong> {{ (commande.totalWt + commande.prixTransporteur)|price}} <br>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/aurore/Bureau/TheDistrictV2/src/Controller/FactureController.php</code></li>
-        <li>Your template at <code>/home/aurore/Bureau/TheDistrictV2/templates/facture/index.html.twig</code></li>
-    </ul>
-</div>
-{% endblock %}
+  </body>
+</html>
