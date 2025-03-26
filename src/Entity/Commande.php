@@ -56,21 +56,37 @@ class Commande
         $this->detailCommandes = new ArrayCollection();
     }
 
+
+    /**
+     * 
+     * return le total de la commande avec tva
+     * 
+     * 
+     */
     public function getTotalWt()
     {
         $totalTTC = 0; 
 
         $plats = $this->getDetailCommandes();
 
+
+
         foreach ($plats as $plat) {
-            $coeff = 1+ ($plat->getTvaPlat() / 100);
+            $coeff = (1 + ($plat->getTvaPlat() / 100));
             $tvaPlat = $plat->getPrixPlat() * $coeff;
 
-            $totalTTC += round($tvaPlat, 2);
+            $totalTTC += $tvaPlat;
         }
+
+
         return round($totalTTC, 2);
     }
 
+    /**
+     * 
+     * Prix total de la tva de la commande
+     * 
+     */
     public function getTotalTva()
     {
 
@@ -78,12 +94,17 @@ class Commande
 
         $plats = $this->getDetailCommandes();
 
+
+        
+        
         foreach ($plats as $plat) {
             $coeff = $plat->getTvaPlat() / 100;
             $tvaPlat = $plat->getPrixPlat() * $coeff;
-
-            $totalTva += round($tvaPlat, 2);
+            
+            $totalTva += $tvaPlat;
         }
+
+
         return round($totalTva, 2);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Panier;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,7 +91,7 @@ final class PaiementController extends AbstractController
 
 
     #[Route('/commande/merci/{stripe_session_id}', name: 'app_paiement_success')]
-    public function success($stripe_session_id, CommandeRepository $commandeRepository, EntityManagerInterface $entityManagerInterface): Response
+    public function success($stripe_session_id, CommandeRepository $commandeRepository, EntityManagerInterface $entityManagerInterface, Panier $panier): Response
     {
       $commande = $commandeRepository->findOneBy([
         'stripe_session_id' => $stripe_session_id,
@@ -103,6 +104,7 @@ final class PaiementController extends AbstractController
 
       if ($commande->getStatus() == 1) {
         $commande->setStatus(2);
+        $panier->remove();
         $entityManagerInterface->flush();
       }
 

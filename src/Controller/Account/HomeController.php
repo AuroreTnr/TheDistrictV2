@@ -3,6 +3,7 @@
 namespace App\Controller\Account;
 
 use App\Classe\Panier;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,18 @@ final class HomeController extends AbstractController
 
 
     #[Route('/compte', name: 'app_account')]
-    public function index(Panier $panier): Response
+    public function index(CommandeRepository $commandeRepository): Response
     {
+
+
+        $commandes = $commandeRepository->findBy([
+            'user' => $this->getUser(),
+            'status' => [2,3]
+        ]);
+
+
         return $this->render('account/index.html.twig', [
-            'panier' => $panier->getPanier(),
+            'commandes' => $commandes,
         ]);
     }
 
