@@ -73,13 +73,12 @@ class Commande
 
         foreach ($plats as $plat) {
             $coeff = (1 + ($plat->getTvaPlat() / 100));
-            $tvaPlat = $plat->getPrixPlat() * $coeff;
+            $totalTTC += ($plat->getPrixPlat() * $coeff) * $plat->getQuantitePlat();
 
-            $totalTTC += $tvaPlat;
         }
 
 
-        return round($totalTTC, 2);
+        return $totalTTC + $this->getPrixTransporteur();
     }
 
     /**
@@ -99,13 +98,12 @@ class Commande
         
         foreach ($plats as $plat) {
             $coeff = $plat->getTvaPlat() / 100;
-            $tvaPlat = $plat->getPrixPlat() * $coeff;
+            $totalTva += ($plat->getPrixPlat() * $coeff) * $plat->getQuantitePlat();
             
-            $totalTva += $tvaPlat;
         }
 
 
-        return round($totalTva, 2);
+        return $totalTva;
     }
 
 

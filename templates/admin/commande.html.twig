@@ -62,10 +62,11 @@
 </tbody>
 </table>
 
+{# Probleme affichage des totaux finaux , prend pas en compte la quantité #}
 <div class="text-right">
     <strong>Total H.T : </strong> {{ (commandes.totalWt - commandes.totalTva)|price}} <br>
     <strong>Total TVA : </strong> {{ commandes.totalTva|price}} <br>
-    <strong>Total T.T.C : </strong> {{ (commandes.totalWt + commandes.prixTransporteur)|price}} <br>
+    <strong>Total T.T.C : </strong> {{ commandes.totalWt|price}} <br>
 </div>
 
 

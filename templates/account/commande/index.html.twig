@@ -74,7 +74,7 @@
             <div>
                 <strong>Total H.T : </strong> {{ (commandes.totalWt - commandes.totalTva)|price}} <br>
                 <strong>Total TVA : </strong> {{ commandes.totalTva|price}} <br>
-                <strong>Total T.T.C : </strong> {{ (commandes.totalWt + commandes.prixTransporteur)|price}} <br>
+                <strong>Total T.T.C : </strong> {{ commandes.totalWt|price}} <br>
             </div>
 
             </div>

@@ -72,8 +72,8 @@ class CommandeCrudController extends AbstractCrudController
             NumberField::new('status')->setLabel('Status commande')->setTemplatePath('admin/status.html.twig'),
             AssociationField::new('user')->setLabel('Client'),
             TextField::new('nomTransporteur')->setLAbel('Transporteur'),
-            NumberField::new('totalWt')->setLabel('Total TTC'),
-            NumberField::new('totalTva')->setLabel('Total TVA'),
+            NumberField::new('totalTva')->setLabel('Total TVA')->setNumDecimals(2),
+            NumberField::new('totalWt')->setLabel('Total TTC')->setNumDecimals(2),
         ];
     }
     
