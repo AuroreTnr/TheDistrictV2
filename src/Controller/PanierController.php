@@ -11,9 +11,14 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class PanierController extends AbstractController
 {
-    #[Route('/mon-panier', name: 'app_panier')]
-    public function index(Panier $panier): Response
+    #[Route('/mon-panier/{motif}', name: 'app_panier', defaults: ['motif' => null])]
+    public function index(Panier $panier, $motif): Response
     {
+        if ($motif == 'annulation') {
+            $this->addFlash('info','Paiement annulé : Vous pouvez mettre à jour votre panier et votre commande');
+        }
+
+
         return $this->render('panier/index.html.twig', [
             'panier' => $panier->getPanier(),
             'totalWt' => $panier->getNetTotalWt(),

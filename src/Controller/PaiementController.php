@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CommandeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,7 +15,7 @@ use Stripe\Checkout\Session;
 final class PaiementController extends AbstractController
 {
     #[Route('/commande/paiement/{id_commande}', name: 'app_paiement')]
-    public function index($id_commande, CommandeRepository $commandeRepository): Response
+    public function index($id_commande, CommandeRepository $commandeRepository, EntityManagerInterface $entityManagerInterface): Response
     {
 
 
@@ -76,11 +77,40 @@ final class PaiementController extends AbstractController
               $platPourStripe
             ]],
             'mode' => 'payment',
-            'success_url' => $_ENV['DOMAINE']. '/success.html',
-            'cancel_url' => $_ENV['DOMAINE']. '/cancel.html',
+            'success_url' => $_ENV['DOMAINE']. '/commande/merci/{CHECKOUT_SESSION_ID}',
+            'cancel_url' => $_ENV['DOMAINE']. '/mon-panier/annulation',
           ]);
+
+          $commande->setStripeSessionId($checkout_session->id);
+          $entityManagerInterface->flush();
 
 
             return $this->redirect($checkout_session->url);
+    }
+
+
+    #[Route('/commande/merci/{stripe_session_id}', name: 'app_paiement_success')]
+    public function success($stripe_session_id, CommandeRepository $commandeRepository, EntityManagerInterface $entityManagerInterface): Response
+    {
+      $commande = $commandeRepository->findOneBy([
+        'stripe_session_id' => $stripe_session_id,
+        'user' => $this->getUser()
+      ]);
+
+      if (!$commande) {
+        return $this->redirectToRoute('app_home');
+      }
+
+      if ($commande->getStatus() == 1) {
+        $commande->setStatus(2);
+        $entityManagerInterface->flush();
+      }
+
+      return $this->render('paiement/success.html.twig', [
+        'commande' => $commande
+    ]);
+
+
+
     }
 }
