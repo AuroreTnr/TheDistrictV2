@@ -108,4 +108,10 @@ class DetailCommande
 
         return $this;
     }
+
+    public function getPlatPrixTTC(){
+        $coeff = 1 + ($this->tvaPlat/100);
+
+        return number_format($coeff * $this->prixPlat, 2, '.', '');
+    }
 }

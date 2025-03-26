@@ -118,6 +118,7 @@ final class CommandeController extends AbstractController
             'choix' => $form->getData(),
             'panier' => $plats,
             'totalWt' => $panier->getNetTotalWt(),
+            'commande' => $commande
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CommandeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,32 +13,74 @@ use Stripe\Checkout\Session;
 
 final class PaiementController extends AbstractController
 {
-    #[Route('/commande/paiement', name: 'app_paiement')]
-    public function index(): Response
+    #[Route('/commande/paiement/{id_commande}', name: 'app_paiement')]
+    public function index($id_commande, CommandeRepository $commandeRepository): Response
     {
-        Stripe::setApiKey('sk_test_51R6YBQQAXTlnYk5dZz0KS9lpHGSsdQdYYHbUnTg9SitIxNUqKFGNzyaxOrwSnVVRxuT6k1ang09v9Ur1DUDP04lH00E0V8llgS');
 
-        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+
+      Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+
+
+      // securise la selection de la commande avec deux criteres
+      $commande = $commandeRepository->findOneBy([
+        'id' => $id_commande,
+        'user' => $this->getUser()
+      ]);
+
+      if (!$commande) {
+        return $this->redirectToRoute('app_home');
+      }
+
+
+
+      // plats
+      $platPourStripe= [];
+      
+      foreach($commande->getDetailCommandes() as $plat){
+
+      $platPourStripe[]= [
+        'price_data' => [
+          'currency' => 'eur',
+          'unit_amount' => number_format($plat->getPlatPrixTTC() * 100, 0, '', ''),
+          'product_data' => [
+              'name' => $plat->getNomPlat(),
+              'images' => [
+                 $_ENV['DOMAINE'] . '/uploads/images/plat/' . $plat->getIllustrationPlat()
+              ]
+          ]
+        ],
+        'quantity' => $plat->getQuantitePlat(),
+
+      ];
+      }
+
+      // Transporteur
+      $platPourStripe[]= [
+        'price_data' => [
+          'currency' => 'eur',
+          'unit_amount' => number_format($commande->getPrixTransporteur() * 100, 0, '', ''),
+          'product_data' => [
+              'name' => 'Transporteur : ' . $commande->getNomTransporteur(),
+          ]
+        ],
+        'quantity' => 1,
+
+      ];
+
+
 
 
         $checkout_session = Session::create([
+          'customer_email' => $this->getUser()->getEmail(),
             'line_items' => [[
-              # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-              'price_data' => [
-                'currenty' => 'eur',
-                'unit_amount' => '1500',
-                'product_data' => [
-                    'name' => 'Produit de test'
-                ]
-              ],
-              'quantity' => 1,
+              $platPourStripe
             ]],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/success.html',
-            'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+            'success_url' => $_ENV['DOMAINE']. '/success.html',
+            'cancel_url' => $_ENV['DOMAINE']. '/cancel.html',
           ]);
 
-            header("HTTP/1.1 303 See Other");
-            header("Location: " . $checkout_session->url);
+
+            return $this->redirect($checkout_session->url);
     }
 }
