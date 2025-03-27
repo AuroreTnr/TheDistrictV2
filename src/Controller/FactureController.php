@@ -32,7 +32,7 @@ final class FactureController extends AbstractController
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();
 
-        $html = $this->renderView('facture/index.html.twig', [
+        $html = $this->renderView('account/commande/facture.html.twig', [
             'commande' => $commande
         ]);
 
@@ -45,9 +45,6 @@ final class FactureController extends AbstractController
 
         exit();
 
-        // return $this->render('facture/index.html.twig', [
-        //     'controller_name' => 'FactureController',
-        // ]);
     }
 
 
@@ -83,8 +80,5 @@ final class FactureController extends AbstractController
 
         exit();
 
-        // return $this->render('facture/index.html.twig', [
-        //     'controller_name' => 'FactureController',
-        // ]);
     }
 }

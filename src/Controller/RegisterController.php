@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Classe\SetEmail;
+use App\Classe\Mail;
 use App\Entity\User;
 use App\Form\ContactUserType;
 use App\Form\RegisterUserType;
@@ -15,18 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class RegisterController extends AbstractController
 {
-
-    private $setEmail;
-
-
-    public function __construct(SetEmail $setEmail)
-    {
-        $this->setEmail = $setEmail;
-
-    }
-
-
-
 
     #[Route('/inscription', name: 'app_register')]
     public function index(Request $request, EntityManagerInterface $entityManagerInterface): Response
@@ -43,12 +31,6 @@ final class RegisterController extends AbstractController
 
             $user = $form->getData();
 
-            $user_nom = $user->getNom();
-            $user_prenom = $user->getPrenom();
-            $user_email = $user->getEmail();
-
-
-
             try {
 
             $entityManagerInterface->persist($user);
@@ -56,8 +38,17 @@ final class RegisterController extends AbstractController
 
             $this->addFlash('success','Votre inscription est bien validée !');
 
-            $this->setEmail->registerEmail($user_email,'Bienvenue sur TheDisctrict ! Confirmez votre adresse email', 'emails/register.html.twig', $user_nom, $user_prenom);
-
+            // Envoie un email de confirmation
+            
+            $mail = new Mail();
+            $variables = [
+                'prenom' => $user->getPrenom(),
+            ];
+        
+            $mail->send($user->getEmail(), $user->getPrenom() . ' ' . $user->getNom(),"Bienvenue sur le restaurant the District ", "welcome.html", $variables);
+    
+    
+    
             return $this->redirectToRoute('app_login');
 
             } catch (Exception $e) {
@@ -90,8 +81,20 @@ final class RegisterController extends AbstractController
             $user_message = $form->getData()['message'];
     
             try {
-                $this->setEmail->contactEmail($user_email, 'Contact client', 'emails/contact.html.twig', $user_message, $user_nom, $user_prenom);
+
+                $mail = new Mail();
+                $variables = [
+                    'prenom' => $user_prenom,
+                    'nom' => $user_nom,
+                    'email' => $user_email,
+                    'message' => $user_message,
+                ];
+            
+                $mail->send('thedistrict@yopmail.com', 'service SAV',"Contact client", "contact.html", $variables);
+
+                
                 $this->addFlash('success','Votre email a bien été envoyé !');
+                
                 return $this->redirectToRoute('app_home');
 
             } catch (Exception $e) {

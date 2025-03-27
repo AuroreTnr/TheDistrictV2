@@ -23,9 +23,9 @@ services:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
 
-    App\Classe\SetEmail:
-        arguments:
-            $mailer: '@mailer'
+    # App\Classe\Email:
+    #     arguments:
+    #         $mailer: '@mailer'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
