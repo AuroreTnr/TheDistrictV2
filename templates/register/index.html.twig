@@ -3,9 +3,10 @@
 {% block title %}S' inscrire{% endblock %}
 
 {% block body %}
-<div class="bg-light p-5">
+<div class="bg-light p-5 vh-100">
     <h1>S' inscrire</h1>
     {{ form(registerform) }}
     <span>J' ai déjà un compte ? <a href="{{ path('app_login') }}">Me connecter</a></span>
 </div>
 {% endblock %}
+{% block video %}{% endblock %}

@@ -13,6 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use \Mailjet\Resources;
+
 
 final class CatalogueController extends AbstractController
 {
@@ -39,6 +41,48 @@ final class CatalogueController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(PlatRepository $platRepository, CategorieRepository $categorieRepository, Request $request): Response
     {
+                
+        // Use your saved credentials, specify that you are using Send API v3.1
+        echo getenv('MJ_APIKEY_PUBLIC');  // Vérifie la clé publique
+        echo getenv('MJ_APIKEY_PRIVATE'); // Vérifie la clé privée
+                
+        $mj = new \Mailjet\Client(getenv('MJ_APIKEY_PUBLIC'), getenv('MJ_APIKEY_PRIVATE'),true,['version' => 'v3.1']);
+        
+        // Define your request body
+        
+        $body = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => "tournieraurore@orange.fr",
+                        'Name' => "Me"
+                    ],
+                    'To' => [
+                        [
+                            'Email' => "thedistrict@yopmail.com",
+                            'Name' => "You"
+                        ]
+                    ],
+                    'Subject' => "My first Mailjet Email!",
+                    'TextPart' => "Greetings from Mailjet!",
+                    'HTMLPart' => "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3>
+                    <br />May the delivery force be with you!"
+                ]
+            ]
+        ];
+        
+        // All resources are located in the Resources class
+        
+        $response = $mj->post(Resources::$Email, ['body' => $body]);
+        
+        // Read the response
+        
+        $response->success() && var_dump($response->getData());
+
+
+        // -------------------------------------------
+
+
 
         $form = $this->createFormRecherche($request);
         $searchQuery = '';

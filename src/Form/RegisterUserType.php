@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Adresse;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -65,30 +66,6 @@ class RegisterUserType extends AbstractType
                 ],
                 'mapped' => false,
             ])            
-            ->add('adresse',  TextType::class, [
-                'label' => 'Entrez votre adresse',
-                'attr' => [
-                    'placeholder' => 'votre adresse'
-                ]
-            ])
-            ->add('cp',  TextType::class, [
-                'label' => 'Entrez votre code postal',
-                'attr' => [
-                    'placeholder' => 'votre code postal'
-                ]
-            ])
-            ->add('ville',  TextType::class, [
-                'label' => 'Entrez le nom de votre ville',
-                'attr' => [
-                    'placeholder' => 'votre ville'
-                ]
-            ])
-            ->add('telephone',  TextType::class, [
-                'label' => 'Entrez votre numéro de téléphone',
-                'attr' => [
-                    'placeholder' => 'votre téléphone'
-                ]
-            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',
                 'attr' => [
@@ -101,7 +78,7 @@ class RegisterUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => User::class
         ]);
     }
 }
