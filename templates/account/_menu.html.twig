@@ -1,6 +1,6 @@
 <ul class="nav flex-column bg-primary-subtle">
     <li class="nav-item" >
-        <a href="" class="nav-link">Mes commandes</a>
+        <a href="{{ path('app_account')}}" class="nav-link">Mes commandes</a>
     </li>
     <li class="nav-item" >
         <a href="{{ path('app_account_adresses')}}" class="nav-link">Mes adresses</a>
@@ -8,6 +8,12 @@
     <li class="nav-item" >
         <a href="{{ path('app_account_modify_pwd')}}" class="nav-link">Modifier mon mot de passe</a>
     </li>
+    {% if is_granted('ROLE_ADMIN') %}
+    <li class="nav-item" >
+        <a href="{{ path('admin')}}" class="nav-link">Administration du site</a>
+    </li>
+    {% endif %}
+    
     <li class="nav-item" >
         <a href="{{ path('app_logout')}}" class="nav-link">Me deconnecter</a>
     </li>

@@ -41,8 +41,8 @@ security:
         - { path: ^/compte, roles: ROLE_USER }
         - { path: ^/mon-panier, roles: ROLE_USER }
         - { path: ^/commande, roles: ROLE_USER }
-        - { path: ^/admin/plat, roles: [ROLE_CHEF, ROLE_ADMIN]}
         - { path: ^/admin, roles: ROLE_ADMIN}
+        # - { path: ^/admin/plat, roles: [ROLE_CHEF, ROLE_ADMIN]}
 
 when@test:
     security:

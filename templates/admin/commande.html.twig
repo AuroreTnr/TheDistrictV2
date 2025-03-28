@@ -2,6 +2,22 @@
 
 {% block main %}
 
+
+<h2>Agir sur la commande</h2>
+
+{% if commandes.status != 1 %}
+    <a href="{{ current_url}}?&status=3" 
+    class=" {% if commandes.status == 3 %} d-none {% endif %} btn btn-outline-warning">Commande en cours de préparation</a>
+    <a href="{{ current_url}}?&status=4" 
+    class=" {% if commandes.status == 4 %} d-none {% endif %} btn btn-outline-success">Commande expédiée</a>
+    <a href="{{ current_url}}?&status=5" 
+    class=" {% if commandes.status == 5 %} d-none {% endif %} btn btn-outline-danger">Commande annulée</a>
+{% else %}
+    <p>Vous ne pouvez pas agir sur une commande qui n' est pas payée</p>
+{% endif %}
+    
+    
+<hr>
 <a href="{{ path('app_facture_admin', {id_commande: commandes.id})}}" class="btn btn-light btn-sm mb-3" target="_blank">Voir/Imprimer la facture</a>
 
 <h3>Commande n° {{commandes.id}} </h3>

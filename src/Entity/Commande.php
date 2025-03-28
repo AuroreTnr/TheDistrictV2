@@ -39,7 +39,9 @@ class Commande
      * 
      * 1 : En attente de paiement
      * 2 : Paimement validé
-     * 3 : Expédié
+     * 3 : En cours de préparation
+     * 4 : Expédié
+     * 5 : Annulée
      */
     #[ORM\Column]
     private ?int $status = null;

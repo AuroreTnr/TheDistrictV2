@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Classe\Mail;
 use App\Entity\Commande;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminAction;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -16,10 +18,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommandeCrudController extends AbstractCrudController
 {
+
+    public function __construct(public EntityManagerInterface $entityManagerInterface)
+    {
+        
+    }
+
     public static function getEntityFqcn(): string
     {
         return Commande::class;
@@ -48,15 +58,52 @@ class CommandeCrudController extends AbstractCrudController
         
     }
 
+    /**
+     * 
+     * fonction permettant le changement de status de commande
+     * 
+     */
+    public function changesStatus(Commande $commande,$status)
+    {
+        // modification du status
+        $commande->setStatus($status);
+        $this->entityManagerInterface->flush();
+
+        // message addflash
+        $this->addFlash('success', 'Status de la commande correctement mis à jour');
+
+        // informer l utilisateur par mail de la modification du status de sa commande
+
+        $mail = new Mail();
+        $variables = [
+            'prenom' => $commande->getUser()->getPrenom(),
+            'id_commande' => $commande->getId()
+        ];
+    
+        $mail->send($commande->getUser()->getEmail(), $commande->getUser()->getPrenom() . ' ' . $commande->getUser()->getNom(),"Modification du status de votre commande", "commande_status_" . $status . ".html", $variables);
+
+
+    }
+
+
 
     #[AdminAction(routePath: '{entityId}/custom-action', routeName: 'custom_action')]
-    public function show(AdminContext $context): Response
+    public function show(AdminContext $context, AdminUrlGenerator $adminUrlGenerator, Request $request): Response
     {
-        
+
         $commande = $context->getEntity()->getInstance();
 
+        // récupérer l' url de notre action show pour les btn status
+        $url =$adminUrlGenerator->setController(self::class)->setAction('show')->setEntityId($commande->getId())->generateUrl();
+
+        //Traitement des changement de status
+        if ($request->get('status')) {
+            $this->changesStatus($commande, $request->get('status'));
+        }
+        
         return $this->render('admin/commande.html.twig', [
-            'commandes' => $commande
+            'commandes' => $commande,
+            'current_url' => $url
         ]);
 
 

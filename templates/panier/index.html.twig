@@ -12,20 +12,20 @@
 
 
 
-<div class="row bg-light m-3 p-2">
+<div class="row bg-light p-2 m-0">
   <h3>Mon panier</h3>
 
-  <div class="col-md-8 vh-100">
+  <div class="col-md-9 vh-100">
     {% for plat in panier %}
       <div class="row mt-2">
           <div class="col-md-2">
             <img src="{{ asset('asset/uploads/images/plat/' ~ plat.object.image) }}" alt="{{plat.object.libelle}} " style="max-width: 50px; height: 50px; object-fit: cover;" class="img-fluid rounded-circle">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <strong>{{plat.object.libelle}}</strong>
             <span class="d-block small">Prix unitaire {{plat.object.getPriceWt()|price}}</span>
           </div>
-          <div class="col-md-3 text-right">
+          <div class="col-md-2 text-right">
             <a href="{{ path('app_cart_less', {id: plat.object.id})}}" class="btn btn-secondary btn-sm">-</a><span>
               x {{plat.qty}}
             </span><a href="{{ path('app_cart_add', {id : plat.object.id}) }}" class="btn btn-secondary btn-sm">+</a>
@@ -36,7 +36,7 @@
       </div>
     {% endfor %}
   </div>
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="bg-secondary-subtle p-3">
        <div class="d-flex justify-content-between">
             <span class="fw-bold">Total produit :</span>
