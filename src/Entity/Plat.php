@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlatRepository::class)]
 class Plat
@@ -29,6 +30,9 @@ class Plat
     private ?float $tva = null;
 
     #[ORM\Column(length: 225)]
+    #[Assert\image(
+        mimeTypes : ["image/jpeg", "image/png"])
+    ]
     private ?string $image = null;
 
     #[ORM\Column]
