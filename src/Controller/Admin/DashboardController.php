@@ -7,16 +7,15 @@ use App\Entity\Commande;
 use App\Entity\Plat;
 use App\Entity\Transporteur;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use Symfony\Component\Security\Core\User\UserInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
+
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -24,14 +23,20 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
 
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // 1.1) If you have enabled the "pretty URLs" feature:
-        // return $this->redirectToRoute('admin_user_index');
-        //
-        // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
+        // when using legacy admin URLs, use the URL generator to build the needed URL
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+
+
+        // Option 2. Make your dashboard redirect to different pages depending on the user
+        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
+        }
+
+        if (in_array('ROLE_CHEF', $this->getUser()->getRoles())) {
+            return $this->redirect($adminUrlGenerator->setController(PlatCrudController::class)->generateUrl());
+        }
+
+        return $this->redirectToRoute('app_home');
 
     }
 
@@ -44,11 +49,16 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
             yield MenuItem::linkToRoute('Page d accueil', 'fa fa-home', 'app_home');
-            yield MenuItem::linkToDashboard('Utilisateurs', 'fas fa-list');
+
+
+            yield MenuItem::section('chef');
             yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Categorie::class);
             yield MenuItem::linkToCrud('Plats', 'fas fa-list', Plat::class);
-            yield MenuItem::linkToCrud('Transporteurs', 'fas fa-list', Transporteur::class);
-            yield MenuItem::linkToCrud('Commandes', 'fas fa-list', Commande::class);
+
+            yield MenuItem::section('admin')->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToDashboard('Utilisateurs', 'fas fa-list')->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('Transporteurs', 'fas fa-list', Transporteur::class)->setPermission('ROLE_ADMIN');
+            yield MenuItem::linkToCrud('Commandes', 'fas fa-list', Commande::class)->setPermission('ROLE_ADMIN');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 
@@ -60,6 +70,14 @@ class DashboardController extends AbstractDashboardController
             ->setPaginatorPageSize(15)
         ;
     }
+
+
+
+
+
+
+    // https://symfony.com/bundles/EasyAdminBundle/current/dashboards.html#customizing-the-dashboard-contents
+
 
 
 }

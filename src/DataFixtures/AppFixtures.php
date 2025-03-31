@@ -54,19 +54,9 @@ class AppFixtures extends Fixture
             $user->setRoles([]);
             $user->setEmail($faker->email());
             $user->setPassword($faker->password(4,10));
-            $user->setAdresse($i . ' rue chocolat');
-            $user->setCp('25102');
-            $user->setVille('chocolatland');
             $manager->persist($user);
         }
 
-        for ($i=0; $i < 3; $i++) { 
-            $commande = new Commande();
-            $commande->setDateCommande(\DateTimeImmutable::createFromMutable($faker->dateTime()));
-            $commande->setEtat(1);
-            $commande->setTotal('10');
-            $manager->persist($commande);
-        }
 
 
         // $product = new Product();
