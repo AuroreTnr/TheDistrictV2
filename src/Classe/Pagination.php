@@ -32,6 +32,12 @@ class Pagination
 
         $query = $queryBuilder->getQuery();
 
+        if ($searchQuery) {
+            $isPagination = false;
+        }else {
+            $isPagination = true;
+        }
+
         $objets = $query->getResult();
 
         $nbre_total_objet = $repository->createQueryBuilder('e')
@@ -49,7 +55,7 @@ class Pagination
 
         return [
             'objets' => $objets,
-            'isPaginated' => true,
+            'isPaginated' => $isPagination,
             'nbre_de_page' => $nbre_de_page,
             'page' => $page
         ];

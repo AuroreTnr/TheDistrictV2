@@ -69,6 +69,9 @@ final class CatalogueController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchQuery = $form->get('query')->getData();
+            
+            return $this->redirectToRoute('app_plats', ['search' => $searchQuery, 'page' => 1]);
+
         }
 
         $result = $this->pagination->setPagination(Plat::class, 6, $page, $searchQuery);
