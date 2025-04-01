@@ -45,8 +45,8 @@ class PlatCrudController extends AbstractCrudController
                 ->setUploadDir('public/asset/uploads/images/plat/')  // chemin ou admin doit chercher
                 ->setRequired($required),
             NumberField::new('prix')
-            ->setHelp('Le prix du plat TTC, sans le sigle euro')
-            ->setNumDecimals(2),
+                ->setHelp('Le prix du plat TTC, sans le sigle euro')
+                ->setNumDecimals(2),
             TextEditorField::new('description')->onlyOnForms(),
             AssociationField::new('categorie')
                 ->setHelp('Choisissez une catégorie'),

@@ -30,9 +30,6 @@ class Plat
     private ?float $tva = null;
 
     #[ORM\Column(length: 225)]
-    #[Assert\image(
-        mimeTypes : ["image/jpeg", "image/png"])
-    ]
     private ?string $image = null;
 
     #[ORM\Column]
