@@ -40,7 +40,7 @@ class PlatCrudController extends AbstractCrudController
             ImageField::new('image')
                 ->setLabel('Illustration')
                 ->setHelp('L\' url du plat')
-                ->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')
+                ->setUploadedFileNamePattern('[year]-[month]-[day]-[slug].[extension]')
                 ->setBasePath('asset/uploads/images/plat/') // chemin ou l image doit etre sauvegarder dans le projet
                 ->setUploadDir('public/asset/uploads/images/plat/')  // chemin ou admin doit chercher
                 ->setRequired($required),

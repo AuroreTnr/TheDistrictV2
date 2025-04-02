@@ -4,9 +4,11 @@ namespace App\Eventlistener;
 
 use App\Entity\Plat;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
+use Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
+
 
 
 class PlatEventlistener
@@ -14,17 +16,18 @@ class PlatEventlistener
 
     private $manager; 
 
-    public function __construct(ImageManager $manager)
+    public function __construct()
     {
-        $this->manager = $manager;
+        $this->manager = new ImageManager(new Driver());
     }
 
 
-    public function prePersist(Plat $plat, LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
     {
-        $entity = $args->getObject();
 
-        if ($entity instanceof Plat) {
+        $plat = $args->getObject();
+
+        if ($plat instanceof Plat) {
             $image = $plat->getImage();
         }
 
@@ -38,17 +41,20 @@ class PlatEventlistener
 //             // Déplacer l'image vers le répertoire de destination
             $image->move($targetDirectory, $fileName);
 
+            try {
 //             // Créer une instance de ImageManager pour manipuler l'image
-            $img = $this->manager->read($targetDirectory . $fileName);
-
-//             // Redimensionner l'image
-            $img->scale(300, 300);
+            $img = $this->manager->read($targetDirectory . $fileName)->scale(300, 300);
 
 //             // Sauvegarder l'image redimensionnée
             $img->save($targetDirectory . $fileName);
 
-//             // Mettre à jour l'entité avec le nom de l'image redimensionnée
+              // Mettre à jour l'entité avec le nom de l'image redimensionnée
             $plat->setImage($fileName);
+
+            } catch (Exception $e) {
+                throw new \Exception("Error processing image: " . $e->getMessage());            
+            }
+
         }
     }
 }
@@ -60,3 +66,6 @@ class PlatEventlistener
 
 
 // /etc/php/8.3/cli/conf.d/20-gd.ini
+
+
+// https://image.intervention.io/v3/introduction/frameworks#installation-1
