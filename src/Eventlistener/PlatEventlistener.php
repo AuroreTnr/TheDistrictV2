@@ -1,59 +1,62 @@
 <?php
 
-
 namespace App\Eventlistener;
 
 use App\Entity\Plat;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Intervention\Image\ImageManager;
-
+use Intervention\Image\Drivers\Imagick\Driver;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 class PlatEventlistener
 {
-    private $uploadDir;
 
-    public function __construct(string $uploadDir)
+    private $manager; 
+
+    public function __construct(ImageManager $manager)
     {
-        $this->uploadDir = $uploadDir;
+        $this->manager = $manager;
     }
+
 
     public function prePersist(Plat $plat, LifecycleEventArgs $args)
     {
-        // Événement avant l'insertion d'un plat (création)
-        $this->handleImage($plat);
-    }
+        $entity = $args->getObject();
 
-    public function preUpdate(Plat $plat, LifecycleEventArgs $args)
-    {
-        // Événement avant la mise à jour d'un plat
-        $this->handleImage($plat);
-    }
-
-    private function handleImage(Plat $plat)
-    {
-        // Vérifier si une image a été téléchargée
-        $imageFile = $plat->getImage(); // Supposons que tu as une méthode getImage() dans ton entité Plat
-
-        if ($imageFile instanceof UploadedFile) {
-            // Créer un nom de fichier unique pour l'image
-            $filename = uniqid() . '.' . $imageFile->guessExtension();
-            $filePath = $this->uploadDir . '/' . $filename;
-
-            // Créer une instance d'ImageManager d'Intervention
-            $manager = new ImageManager();
-
-            // Lire l'image
-            $image = $manager->make($imageFile->getRealPath());
-
-            // Redimensionner l'image à une hauteur de 300px tout en maintenant le ratio
-            $image->resize(null, 300); // La largeur sera calculée automatiquement en fonction du ratio
-
-            // Sauvegarder l'image redimensionnée
-            $image->save($filePath);
-
-            // Assigner le chemin du fichier à l'entité Plat
-            $plat->setImagePath($filename); // Supposons que tu as une méthode setImagePath() pour stocker le chemin de l'image
+        if ($entity instanceof Plat) {
+            $image = $plat->getImage();
         }
-    }}
+
+//         // Vérifie si l'image est un fichier téléchargé
+        if ($image instanceof UploadedFile) {
+
+//             // Définir le répertoire où l'image originale sera sauvegardée
+            $targetDirectory = 'public/asset/uploads/images/plat/';
+            $fileName = $image->getClientOriginalName();
+
+//             // Déplacer l'image vers le répertoire de destination
+            $image->move($targetDirectory, $fileName);
+
+//             // Créer une instance de ImageManager pour manipuler l'image
+            $img = $this->manager->read($targetDirectory . $fileName);
+
+//             // Redimensionner l'image
+            $img->scale(300, 300);
+
+//             // Sauvegarder l'image redimensionnée
+            $img->save($targetDirectory . $fileName);
+
+//             // Mettre à jour l'entité avec le nom de l'image redimensionnée
+            $plat->setImage($fileName);
+        }
+    }
+}
+
+
+
+// https://image.intervention.io/v3/modifying/inserting
+
+
+
+// /etc/php/8.3/cli/conf.d/20-gd.ini

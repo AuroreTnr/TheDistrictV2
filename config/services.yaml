@@ -23,6 +23,17 @@ services:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
 
+    App\Eventlistener\PlatEventlistener:
+        arguments:
+            $manager: '@Intervention\Image\ImageManager'
+        tags:
+            - { name: 'doctrine.event_listener', event: 'prePersist' }
+    
+    Intervention\Image\ImageManager:
+        arguments:
+            $driver: 'imagick'  # ou 'gd' selon votre préférence
+        public: true
+
     # App\Classe\Email:
     #     arguments:
     #         $mailer: '@mailer'
