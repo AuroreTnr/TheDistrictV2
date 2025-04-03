@@ -2,34 +2,44 @@
 
 namespace App\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Mailer\Event\MessageEvent;
-use App\Classe\Mail;
-use App\Event\UserRegisteredEvent;
-use Symfony\Bundle\SecurityBundle\Security;
 
-class MailMessageSubscriber implements EventSubscriberInterface
+use App\Classe\Mail;
+use App\Entity\Commande;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+
+
+
+class MailMessageSubscriber implements EventSubscriber
 {
 
     private $mail;
-    private $security;
 
-    public function __construct(Mail $mail, Security $security)
+    public function __construct(Mail $mail)
     {
         $this->mail = $mail;
-        $this->security = $security;
     }
 
 
-    public function onMessageEvent(UserRegisteredEvent $event): void
-    {
-        $user = $this->security->getUser();
-    }
 
-    public static function getSubscribedEvents(): array
+    public function getSubscribedEvents(): array
     {
         return [
-            UserRegisteredEvent::class => 'onMessageEvent',
+            'postPersist'
         ];
     }
+
+
+    
+    public function postPersist(PostPersistEventArgs $args)
+    {
+        $entity = $args->getObject();
+
+        if ($entity instanceof Commande) {
+            $this->mail->send('tournieraurore@orange.fr', 'Bernadette', 'test event doctrine', 'commande_status_3.html', null);
+        }
+    }
+
+
+
 }

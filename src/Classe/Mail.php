@@ -14,7 +14,7 @@ class Mail
     {
 
         // template
-        $content = file_get_contents(dirname(__DIR__ ).$template);
+        $content = file_get_contents(dirname(__DIR__ ). '/' . 'Mail/' . $template);
 
         // variable facultatives
         if ($variables) {

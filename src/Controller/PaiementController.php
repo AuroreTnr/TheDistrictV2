@@ -78,8 +78,8 @@ final class PaiementController extends AbstractController
               $platPourStripe
             ]],
             'mode' => 'payment',
-            'success_url' => $_ENV['MJ_APIKEY_PUBLIC']. '/commande/merci/{CHECKOUT_SESSION_ID}',
-            'cancel_url' => $_ENV['MJ_APIKEY_PRIVATE']. '/mon-panier/annulation',
+            'success_url' => $_ENV['DOMAINE']. '/commande/merci/{CHECKOUT_SESSION_ID}',
+            'cancel_url' => $_ENV['DOMAINE']. '/mon-panier/annulation',
           ]);
 
           $commande->setStripeSessionId($checkout_session->id);

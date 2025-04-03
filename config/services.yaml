@@ -19,13 +19,16 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            
     App\Classe\Pagination:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
 
-    App\Eventlistener\PlatEventlistener:
+    App\EventSubscriber\MailMessageSubscriber:
+        arguments:
+            $mail: '@App\Classe\Mail'
         tags:
-            - { name: 'doctrine.event_listener', event: 'prePersist' }
+            - { name: doctrine.event_subscriber }
     
 
     # App\Classe\Email:
