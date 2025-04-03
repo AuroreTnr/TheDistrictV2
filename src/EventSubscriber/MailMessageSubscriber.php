@@ -7,8 +7,8 @@ use App\Classe\Mail;
 use App\Entity\Commande;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\PostPersistEventArgs;
-
-
+use Doctrine\ORM\Events;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class MailMessageSubscriber implements EventSubscriber
 {
@@ -30,7 +30,6 @@ class MailMessageSubscriber implements EventSubscriber
     }
 
 
-    
     public function postPersist(PostPersistEventArgs $args)
     {
         $entity = $args->getObject();
