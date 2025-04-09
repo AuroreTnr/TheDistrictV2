@@ -14,10 +14,12 @@ class MailMessageSubscriber implements EventSubscriber
 {
 
     private $mail;
+    private $commande;
 
-    public function __construct(Mail $mail)
+    public function __construct(Mail $mail, Commande $commande)
     {
         $this->mail = $mail;
+        $this->commande = $commande;
     }
 
 
@@ -34,8 +36,8 @@ class MailMessageSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof Commande) {
-            $this->mail->send('tournieraurore@orange.fr', 'Bernadette', 'test event doctrine', 'commande_status_3.html', null);
+        if ($entity instanceof Commande && $this->commande->getStatus() == 2) {
+            $this->mail->send('tournieraurore@orange.fr', 'John', 'test event doctrine', 'commande_status_3.html', null);
         }
     }
 
