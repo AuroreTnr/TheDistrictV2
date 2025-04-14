@@ -3,6 +3,7 @@
 ![Symfony](https://img.shields.io/badge/Symfony-000000?style=for-the-badge&logo=symfony&logoColor=white)
 ![Twig](https://img.shields.io/badge/Twig-FFD600?style=for-the-badge&logo=twig&logoColor=black)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![DomPDF](https://img.shields.io/badge/DomPDF-4A4A4A?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white)
 ![Mailjet](https://img.shields.io/badge/Mailjet-F5A623?style=for-the-badge&logo=mailjet&logoColor=white)
