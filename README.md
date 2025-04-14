@@ -1,5 +1,14 @@
 # 🍽️ TheDistrictV2
 
+![Symfony](https://img.shields.io/badge/Symfony-000000?style=for-the-badge&logo=symfony&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Stripe](https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white)
+![Mailjet](https://img.shields.io/badge/Mailjet-F5A623?style=for-the-badge&logo=mailjet&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Status](https://img.shields.io/badge/Status-En%20cours-yellow?style=for-the-badge)
+
+
 **TheDistrictV2** est une application web développée avec Symfony permettant la gestion complète d’un site de restauration : présentation des plats, commandes en ligne, gestion des utilisateurs, paiement sécurisé et génération de factures.
 
 ## 🚀 Fonctionnalités principales
