@@ -1,6 +1,6 @@
 # 🍽️ TheDistrictV2
 
-**TheDistrictV2** est une application web développée avec Symfony permettant la gestion complète d’un site de restauration : présentation du menu, commandes en ligne, gestion des utilisateurs, paiement sécurisé et génération de factures.
+**TheDistrictV2** est une application web développée avec Symfony permettant la gestion complète d’un site de restauration : présentation des plats, commandes en ligne, gestion des utilisateurs, paiement sécurisé et génération de factures.
 
 ## 🚀 Fonctionnalités principales
 
