@@ -59,10 +59,40 @@ cp .env .env.local
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
-5. Lancer le serveur
+
+5. Charger les données de test (fixtures)
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+6. Lancer le serveur
 ```bash
 symfony server:start
 ```
+
+## 👤 Utilisateurs de test
+
+| Rôle  | Email            | Mot de passe |
+|-------|------------------|--------------|
+| Admin | admin@test.fr     | 1234         |
+| Chef  | chef@test.fr      | 1234         |
+| Client| client@test.fr    | 1234         |
+
+
+## 🖼️ Images
+
+Les entités utilisent des images par défaut situées dans le dossier suivant :
+
+```bash
+public/asset/img/
+```
+
+
+⚠️ **Ce dossier doit être présent pour que l’affichage fonctionne correctement.**
+
+
+
 
 ## 🚧 À venir
 
