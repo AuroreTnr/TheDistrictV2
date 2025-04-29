@@ -30,36 +30,36 @@ class AppFixtures extends Fixture
         //Categories
         $categorie1 = new Categorie();
         $categorie1->setLibelle('Burger');
-        $categorie1->setImage('img/image-fixeture.jpg');
+        $categorie1->setImage('image-fixture.jpg');
         $categorie1->setActive(true);
         $categorie1->setSlug(strtolower($categorie1->getLibelle()));
         $manager->persist($categorie1);
 
         $categorie2 = new Categorie();
         $categorie2->setLibelle('Pizza');
-        $categorie2->setImage('img/image-fixeture.jpg');
+        $categorie2->setImage('image-fixture.jpg');
         $categorie2->setActive(true);
-        $categorie1->setSlug(strtolower($categorie2->getLibelle()));
+        $categorie2->setSlug(strtolower($categorie2->getLibelle()));
         $manager->persist($categorie2);
 
         $categorie3 = new Categorie();
         $categorie3->setLibelle('Veggie');
-        $categorie3->setImage('img/image-fixeture.jpg');
+        $categorie3->setImage('image-fixture.jpg');
         $categorie3->setActive(true);
-        $categorie1->setSlug(strtolower($categorie3->getLibelle()));
+        $categorie3->setSlug(strtolower($categorie3->getLibelle()));
         $manager->persist($categorie3);
 
 
         // Plats
-        for ($i=0; $i < 5 ; $i++) { 
+        for ($i=0; $i < 20 ; $i++) { 
             $plat = new Plat();
             $plat->setLibelle('Burger' . $i);
             $plat->setDescription($faker->text(5));
             $plat->setPrix('10');
-            $plat->setImage('img/image-fixeture.jpg');
+            $plat->setImage('image-fixture.jpg');
             $plat->setActive(true);
             $plat->setCategorie($faker->randomElement([$categorie1, $categorie2, $categorie3]));
-            $plat->setSlug(strtolower('burger-' . $i));
+            $plat->setSlug(strtolower('burger'));
             $plat->setTva(5.5);
             $manager->persist($plat);
         }

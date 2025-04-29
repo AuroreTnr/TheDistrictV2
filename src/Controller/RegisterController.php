@@ -45,7 +45,7 @@ final class RegisterController extends AbstractController
                 'prenom' => $user->getPrenom(),
             ];
         
-            $mail->send($user->getEmail(), $user->getPrenom() . ' ' . $user->getNom(),"Bienvenue sur le restaurant the District ", "welcome.html", $variables);
+            // $mail->send($user->getEmail(), $user->getPrenom() . ' ' . $user->getNom(),"Bienvenue sur le restaurant the District ", "welcome.html", $variables);
     
     
     
@@ -55,9 +55,6 @@ final class RegisterController extends AbstractController
                 throw new Exception("Erreur lors de l envoie de l email : " . $e->getMessage());
             }
 
-
-
-            return $this->redirectToRoute('app_login');
 
         }
 
@@ -90,7 +87,7 @@ final class RegisterController extends AbstractController
                     'message' => $user_message,
                 ];
             
-                $mail->send('thedistrict@yopmail.com', 'service SAV',"Contact client", "contact.html", $variables);
+                // $mail->send('thedistrict@yopmail.com', 'service SAV',"Contact client", "contact.html", $variables);
 
                 
                 $this->addFlash('success','Votre email a bien été envoyé !');

@@ -80,16 +80,6 @@ symfony server:start
 | Client| client@test.fr    | 1234         |
 
 
-## 🖼️ Images
-
-Les entités utilisent des images par défaut situées dans le dossier suivant :
-
-```bash
-public/asset/img/
-```
-
-
-⚠️ **Ce dossier doit être présent pour que l’affichage fonctionne correctement.**
 
 
 

@@ -26,6 +26,8 @@
 /public/asset/uploads/images/plat/*
 !/public/asset/uploads/images/categorie/.gitkeep
 !/public/asset/uploads/images/plat/.gitkeep
+!/public/asset/uploads/images/categorie/image-fixture
+!/public/asset/uploads/images/plat/image-fixture
 ###< symfony/asset-mapper ###
 
 
