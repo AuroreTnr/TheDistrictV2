@@ -49,7 +49,7 @@ composer install
 npm install
 ```
 
-3. Copier le fichier .env et renseigner vos identifiants API Stripe et Mailjet :
+3. Copier le fichier .env et renseigner vos identifiants API Stripe et Mailjet puis votre base de données :
 ```bash
 cp .env .env.local
 ```
@@ -66,6 +66,9 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
+> 🔧 **Mailjet** : pensez à configurer `Mail.php` et à décommenter les lignes concernées **uniquement si vous utilisez Mailjet**.
+
+
 6. Lancer le serveur
 ```bash
 symfony server:start
@@ -80,6 +83,16 @@ symfony server:start
 | Client| client@test.fr    | 1234         |
 
 
+### 📧 Configuration Mailjet (optionnelle)
+
+Si vous utilisez Mailjet pour l’envoi d’e-mails :
+
+1. Ouvrez le fichier `src/Classe/Mail.php` et renseignez le `TemplateID` correspondant à votre modèle Mailjet.
+2. Décommentez les lignes d’envoi d’e-mails dans les fichiers suivants :
+   - `src/Controller/RegisterController.php`
+   - `src/EventSubscriber/MailMessageSubscriber.php`
+
+> 💡 Si vous ne souhaitez pas utiliser Mailjet, **laissez ces lignes commentées** pour éviter toute erreur.
 
 
 
@@ -96,7 +109,9 @@ symfony server:start
 
 
 ## 🙋‍♀️ Auteure
-Développé par Aurore Tournier dans le cadre de la formation Concepteur Développeur d’Applications – AFPA 2025.
+
+Développé par [Aurore Tournier](https://github.com/AuroreTnr) dans le cadre de la formation **Concepteur Développeur d’Applications – AFPA 2025**.
+
 
 
 
