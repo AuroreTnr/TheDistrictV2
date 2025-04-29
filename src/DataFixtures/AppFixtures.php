@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
 
         // Chef
         $userChef = new User();
-        $userChef->setNom('user');
+        $userChef->setNom('chef');
         $userChef->setPrenom('test');
         $userChef->setRoles(['ROLE_CHEF']);
         $userChef->setEmail('chef@test.fr');
