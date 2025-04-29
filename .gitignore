@@ -22,4 +22,10 @@
 ###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
+/public/asset/uploads/images/categorie/*
+/public/asset/uploads/images/plat/*
+!/public/asset/uploads/images/categorie/.gitkeep
+!/public/asset/uploads/images/plat/.gitkeep
 ###< symfony/asset-mapper ###
+
+
